@@ -17,6 +17,28 @@ docker run --rm -p 8000:8000 danbyte
 # → http://localhost:8000
 ```
 
+Local dev with live reload and the theme switcher:
+
+```bash
+docker run --rm -p 8000:8000 -e DANBYTE_DEV=1 -v "$PWD/app":/srv/app:ro danbyte \
+  uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir /srv/app \
+  --reload-include '*.yaml' --reload-include '*.html' --reload-include '*.css'
+```
+
+## Themes
+
+Colour themes live in `app/static/css/themes.css`; the live one is `site.theme` in `portfolio.yaml`
+(see `THEMES` in `app/content.py`):
+
+- `amber`: the original warm phosphor look.
+- `ghostty-*` (blue, yellow, magenta, cyan): Ghostty's default background/foreground and Tomorrow Night palette.
+- `lazyvim-*` (normal, insert, visual, command): tokyonight "moon", LazyVim's default; accents follow the Vim mode colours.
+- `github-*` (blue, coral, green): GitHub Dark, from Primer primitives.
+
+With `DANBYTE_DEV=1` a switcher appears bottom-left (`[` / `]` cycle through them, and `?theme=<name>` works
+in the URL). It only changes your browser; to ship a theme, set `site.theme`. To add one, define it in
+`themes.css` and add it to `THEMES` in `app/content.py` (tests check they match).
+
 Without Docker:
 
 ```bash

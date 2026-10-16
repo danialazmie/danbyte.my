@@ -1,5 +1,6 @@
 import hashlib
 import mimetypes
+import os
 from functools import lru_cache
 from pathlib import Path
 
@@ -9,7 +10,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from app.content import inline_md, load_portfolio
+from app.content import THEMES, inline_md, load_portfolio
 
 BASE_DIR = Path(__file__).parent
 STATIC_DIR = BASE_DIR / "static"
@@ -32,6 +33,9 @@ def asset(path: str) -> str:
 
 
 templates.env.globals["asset"] = asset
+templates.env.globals["themes"] = THEMES
+# Local dev extras (theme switcher). Never set this in production.
+templates.env.globals["dev"] = os.getenv("DANBYTE_DEV") == "1"
 
 
 @app.middleware("http")

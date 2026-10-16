@@ -8,10 +8,28 @@ from pathlib import Path
 
 import yaml
 from markupsafe import Markup, escape
+from typing import Literal
+
 from pydantic import BaseModel, Field, HttpUrl
 
 CONTENT_PATH = Path(__file__).parent / "content" / "portfolio.yaml"
 YEAR_MONTH = r"^\d{4}-(0[1-9]|1[0-2])$"
+# Colour themes defined in static/css/themes.css -> browser theme-color (page background).
+THEMES = {
+    "amber": "#13100c",
+    "ghostty-blue": "#282c34",
+    "ghostty-yellow": "#282c34",
+    "ghostty-magenta": "#282c34",
+    "ghostty-cyan": "#282c34",
+    "lazyvim-normal": "#222436",
+    "lazyvim-insert": "#222436",
+    "lazyvim-visual": "#222436",
+    "lazyvim-command": "#222436",
+    "github-blue": "#0d1117",
+    "github-coral": "#0d1117",
+    "github-green": "#0d1117",
+}
+ThemeName = Literal[tuple(THEMES)]
 MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split()
 
 
@@ -26,6 +44,7 @@ class Site(BaseModel):
     url: HttpUrl
     domain: str
     description: str
+    theme: ThemeName = "amber"
 
 
 class Profile(BaseModel):

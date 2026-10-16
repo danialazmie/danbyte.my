@@ -79,3 +79,35 @@ def test_inline_md_escapes_html():
     assert "<script>" not in out
     assert "<strong>bold</strong>" in out
     assert '<strong class="hl">hi</strong>' in out
+
+
+def test_theme_comes_from_yaml_and_is_validated(home):
+    from pydantic import ValidationError
+
+    from app.content import THEMES, Site
+
+    assert f'data-theme="{content.site.theme}"' in home
+    assert set(THEMES) == set(Site.model_fields["theme"].annotation.__args__)
+    with pytest.raises(ValidationError):
+        Site(url="https://x.dev", domain="x.dev", description="x", theme="nope")
+
+
+def test_every_theme_is_defined_in_css():
+    from pathlib import Path
+
+    from app.content import THEMES
+
+    css = (Path(__file__).parents[1] / "app/static/css/themes.css").read_text()
+    for name in THEMES:
+        assert f'[data-theme="{name}"]' in css
+
+
+def test_dev_switcher_only_in_dev(home):
+    from app.main import templates
+
+    assert 'id="theme-pick"' not in home
+    templates.env.globals["dev"] = True
+    try:
+        assert 'id="theme-pick"' in client.get("/").text
+    finally:
+        templates.env.globals["dev"] = False

@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="{{ c.site.theme }}">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{% block title %}{{ c.profile.name }} · {{ c.profile.roles | join(' & ') }}{% endblock %}</title>
 <meta name="description" content="{{ c.site.description }}">
 <link rel="canonical" href="{{ c.site.url }}">
-<meta name="theme-color" content="#13100c">
+<meta name="theme-color" content="{{ themes[c.site.theme] }}">
 <meta property="og:type" content="website">
 <meta property="og:url" content="{{ c.site.url }}">
 <meta property="og:title" content="{{ c.profile.name }} · {{ c.profile.roles | join(' & ') }}">
@@ -15,7 +15,18 @@
 <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
 <link rel="preload" href="/static/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/static/fonts/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ asset('css/themes.css') }}">
 <link rel="stylesheet" href="{{ asset('css/main.css') }}">
+{% if dev %}
+<script>
+  // dev: apply ?theme= or the last picked theme before first paint
+  (function(){
+    var q = new URLSearchParams(location.search).get('theme'), t = q;
+    try { t = q || localStorage.getItem('danbyte-theme'); if (q) localStorage.setItem('danbyte-theme', q); } catch (e) {}
+    if (t) document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+{% endif %}
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -47,6 +58,38 @@
   <span>[exit 0] built with FastAPI &amp; Jinja2</span>
 </footer>
 
+{% if dev %}
+<div class="devbar" role="group" aria-label="Dev: colour theme">
+  <span class="devbar-k">dev</span>
+  <label for="theme-pick">theme</label>
+  <select id="theme-pick">
+    {%- set ns = namespace(fam=None) %}
+    {%- for t in themes %}{% set fam = t.split('-')[0] %}
+    {%- if fam != ns.fam %}{% if ns.fam %}</optgroup>{% endif %}<optgroup label="{{ fam }}">{% set ns.fam = fam %}{% endif %}
+    <option value="{{ t }}">{{ t }}</option>
+    {%- endfor %}</optgroup>
+  </select>
+  <span class="devbar-k" title="site.theme in portfolio.yaml">[ ] cycle · yaml: {{ c.site.theme }}</span>
+</div>
+<script>
+  (function(){
+    var sel = document.getElementById('theme-pick'), root = document.documentElement;
+    sel.value = root.getAttribute('data-theme');
+    sel.addEventListener('change', function(){
+      root.setAttribute('data-theme', sel.value);
+      try { localStorage.setItem('danbyte-theme', sel.value); } catch (e) {}
+    });
+    // [ and ] step through themes while exploring (ignored while typing)
+    document.addEventListener('keydown', function(e){
+      if (/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) || e.ctrlKey || e.metaKey || e.altKey) return;
+      var step = e.key === ']' ? 1 : e.key === '[' ? -1 : 0, n = sel.options.length;
+      if (!step) return;
+      sel.selectedIndex = ((sel.selectedIndex < 0 ? 0 : sel.selectedIndex) + step + n) % n;
+      sel.dispatchEvent(new Event('change'));
+    });
+  })();
+</script>
+{% endif %}
 {% block scripts %}<script src="{{ asset('js/main.js') }}" defer></script>{% endblock %}
 </body>
 </html>

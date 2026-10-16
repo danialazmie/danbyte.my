@@ -4,6 +4,7 @@
 site:
   url: https://danbyte.my
   domain: danbyte.my
+  theme: github-blue  # see THEMES in app/content.py (amber, ghostty-*, lazyvim-*, github-*)
   description: Danial Azmi is a Data Scientist & AI Engineer in Petaling Jaya, Malaysia, working across the full data stack, from data platforms to ML models to GenAI applications.
 
 profile:

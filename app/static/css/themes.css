@@ -1,0 +1,72 @@
+/* Colour themes. The active one is set by <html data-theme="…"> from
+   site.theme in portfolio.yaml (or the dev switcher when DANBYTE_DEV=1).
+   Names here must match THEMES in app/content.py. */
+
+/* ---- amber: warm phosphor (original) ---- */
+:root, [data-theme="amber"]{
+  --bg:#13100c; --bg-2:#1a1611; --panel:#1d1813; --deep:#0f0d0a;
+  --bar:#211b14; --sel:#2f271d; --row-hl:#241d15; --dt-bg:#1c1712;
+  --line:#3a3127; --line-soft:#2a241d; --grid:#3d342a;
+  --fg:#ebdfca; --fg-2:#c8baa2; --dim:#9d907a; --placeholder:#6f6556;
+  --accent:#ffb454; --accent-hi:#ffcf8a; --accent-lo:#c98a2e; --accent-rgb:255 180 84;
+  --accent-glow:rgb(var(--accent-rgb) / .18);
+  --on-accent:#1a1209; --on-accent-dim:#5a3d12;
+  --ok:#a9c77a; --ok-rgb:169 199 122; --err:#ef8a6f;
+  --dot-1:var(--accent-lo); --dot-2:var(--line); --dot-3:var(--line);
+  --scan:.55;
+}
+
+/* ---- ghostty: Ghostty's default terminal colours ----
+   background #282C34, foreground #FFFFFF, Tomorrow Night 16-colour palette
+   (src/terminal/color.zig). Variants only swap the accent. */
+[data-theme^="ghostty"]{
+  --bg:#282c34; --bg-2:#23272e; --panel:#2c313a; --deep:#1d1f21;
+  --bar:#21252b; --sel:#3a404b; --row-hl:#323842; --dt-bg:#2c313a;
+  --line:#3e4451; --line-soft:#333842; --grid:#4b5263;
+  --fg:#ffffff; --fg-2:#c5c8c6; --dim:#949aa6; --placeholder:#666666;
+  --on-accent:#1d1f21; --on-accent-dim:#3a3f47;
+  --ok:#b5bd68; --ok-rgb:181 189 104; --err:#cc6666;
+  --dot-1:#cc6666; --dot-2:#f0c674; --dot-3:#b5bd68;
+  --scan:0;
+  --accent-glow:rgb(var(--accent-rgb) / .2);
+}
+[data-theme="ghostty-blue"]{ --accent:#81a2be; --accent-hi:#a8c3dc; --accent-lo:#7aa6da; --accent-rgb:129 162 190; }
+[data-theme="ghostty-yellow"]{ --accent:#f0c674; --accent-hi:#f6d99c; --accent-lo:#e7c547; --accent-rgb:240 198 116; }
+[data-theme="ghostty-magenta"]{ --accent:#b294bb; --accent-hi:#d2b6dc; --accent-lo:#c397d8; --accent-rgb:178 148 187; }
+[data-theme="ghostty-cyan"]{ --accent:#8abeb7; --accent-hi:#aad6cf; --accent-lo:#70c0b1; --accent-rgb:138 190 183; }
+
+/* ---- lazyvim: LazyVim's default colourscheme, tokyonight "moon" ----
+   (folke/tokyonight.nvim lua/tokyonight/colors/moon.lua). Variants are named
+   after the Vim mode colours tokyonight gives lualine. */
+[data-theme^="lazyvim"]{
+  --bg:#222436; --bg-2:#1e2030; --panel:#1e2030; --deep:#191b29;
+  --bar:#1e2030; --sel:#2f334d; --row-hl:#2f334d; --dt-bg:#1e2030;
+  --line:#3b4261; --line-soft:#2f334d; --grid:#444a73;
+  --fg:#c8d3f5; --fg-2:#aab4e0; --dim:#828bb8; --placeholder:#545c7e;
+  --on-accent:#1b1d2b; --on-accent-dim:#2f334d;
+  --ok:#c3e88d; --ok-rgb:195 232 141; --err:#ff757f;
+  --dot-1:#ff757f; --dot-2:#ffc777; --dot-3:#c3e88d;
+  --scan:0;
+  --accent-glow:rgb(var(--accent-rgb) / .2);
+}
+[data-theme="lazyvim-normal"]{  --accent:#82aaff; --accent-hi:#89ddff; --accent-lo:#65bcff; --accent-rgb:130 170 255; }
+[data-theme="lazyvim-insert"]{  --accent:#c3e88d; --accent-hi:#d8f2b4; --accent-lo:#4fd6be; --accent-rgb:195 232 141; }
+[data-theme="lazyvim-visual"]{  --accent:#c099ff; --accent-hi:#fca7ea; --accent-lo:#a48ae0; --accent-rgb:192 153 255; }
+[data-theme="lazyvim-command"]{ --accent:#ffc777; --accent-hi:#ffdca8; --accent-lo:#ff966c; --accent-rgb:255 199 119; }
+
+/* ---- github: GitHub Dark, from Primer primitives
+   (@primer/primitives dist/css/functional/themes/dark.css). ---- */
+[data-theme^="github"]{
+  --bg:#0d1117; --bg-2:#151b23; --panel:#151b23; --deep:#010409;
+  --bar:#010409; --sel:#1f242c; --row-hl:#1f242c; --dt-bg:#151b23;
+  --line:#3d444d; --line-soft:#262c36; --grid:#30363d;
+  --fg:#f0f6fc; --fg-2:#c9d1d9; --dim:#9198a1; --placeholder:#656c76;
+  --on-accent:#0d1117; --on-accent-dim:#262c36;
+  --ok:#3fb950; --ok-rgb:63 185 80; --err:#f85149;
+  --dot-1:#f85149; --dot-2:#d29922; --dot-3:#3fb950;
+  --scan:0;
+  --accent-glow:rgb(var(--accent-rgb) / .2);
+}
+[data-theme="github-blue"]{  --accent:#4493f8; --accent-hi:#79c0ff; --accent-lo:#1f6feb; --accent-rgb:68 147 248; }
+[data-theme="github-coral"]{ --accent:#f78166; --accent-hi:#ffa198; --accent-lo:#da3633; --accent-rgb:247 129 102; }
+[data-theme="github-green"]{ --accent:#3fb950; --accent-hi:#56d364; --accent-lo:#238636; --accent-rgb:63 185 80; }
