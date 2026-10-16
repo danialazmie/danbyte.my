@@ -1,0 +1,182 @@
+# All portfolio copy lives here. Edit this file, not the templates.
+# Inline formatting: **bold**, ==highlight== (amber).
+
+site:
+  url: https://danbyte.my
+  domain: danbyte.my
+  description: Danial Azmi is a Data Scientist & AI Engineer in Petaling Jaya, Malaysia, working across the full data stack, from data platforms to ML models to GenAI applications.
+
+profile:
+  name: Danial Azmi
+  roles: [Data Scientist, AI Engineer]
+  tagline: Working across the full data stack, from data platforms to ML models to GenAI applications.
+  now: Data Scientist @ Tupai AI
+  location: Petaling Jaya, Selangor, Malaysia
+  location_short: PJ, MY
+  handle: danial@danbyte
+  status: Open to interesting problems.
+
+about:
+  - I'm a data scientist working across the full data stack, building data platforms, training ML models and shipping GenAI applications in production. My focus is bridging the gap between advanced AI/ML systems and real business needs, ==making models useful, not just accurate.==
+  - Over the past ~4.5 years I've worked across **fintech, media, consulting and edtech**. I've migrated pipelines, stood up MLOps on the cloud and built recommendation engines. Lately I've been building RAG chatbots and AI agents that talk to company data through MCP.
+
+
+education:
+  degree: Bachelor of Computer Science (Data Science)
+  school: Multimedia University, Cyberjaya
+  years: 2017 – 2021
+  notes:
+    - {label: award, text: Yayasan Telekom Malaysia Scholar}
+    - {label: fyp, text: Aspect-Based Sentiment Analysis on Steam game reviews}
+
+# Newest first. start/end are YYYY-MM; end: null means current.
+# slug is the label in the career timeline plot (max 10 chars).
+experience:
+  - slug: tupai-ai
+    role: Data Scientist
+    company: Tupai AI
+    legal_name: AI Teacher Sdn. Bhd.
+    location: Kuala Lumpur
+    start: 2025-09
+    end: null
+    highlights:
+      - Built the full analytics stack serving Marketing, Product and other teams, from data collection through to analysis, using PostHog, GA4, BigQuery, dbt, Prefect and Metabase on a medallion architecture.
+      - Developed a Bayesian recommendation system that creates customised learning plans for students.
+      - Created an AI agent with custom MCP servers (Gemini, Haystack, FastAPI) that works as an internal data analyst. It talks to Metabase, PostHog and BigQuery, so teammates can build simple analyses and dashboards themselves.
+
+  - slug: rev-media
+    role: Data Scientist
+    company: REV Media Group
+    location: Kuala Lumpur
+    start: 2023-09
+    end: 2025-09
+    highlights:
+      - Developed an end-to-end RAG question-answering chatbot (Python, FastAPI, Haystack, GCP), improving customer engagement across multiple channels.
+      - Introduced CI/CD tooling and best practices, significantly streamlining the development lifecycle.
+      - Migrated on-premise ML models to GCP for better monitoring and observability.
+      - Developed a geo-located hyper-personalisation recommendation engine that drove a substantial increase in organic user engagement across products.
+
+  - slug: datamicron
+    role: Data Science Consultant
+    company: DataMicron Systems
+    legal_name: DataMicron Systems Sdn. Bhd.
+    location: Kuala Lumpur
+    start: 2023-02
+    end: 2023-09
+    highlights:
+      - Led research and POCs to identify and validate AI/ML business use cases.
+      - Worked directly with clients to understand their challenges and propose AI/ML solutions to complex problems.
+      - Oversaw end-to-end project lifecycles, from model development and deployment to post-launch maintenance.
+
+  - slug: moneylion
+    role: Data Scientist
+    company: MoneyLion Malaysia
+    legal_name: MoneyLion Malaysia Sdn. Bhd.
+    location: Kuala Lumpur
+    start: 2022-03
+    end: 2022-12
+    highlights:
+      - Migrated the team's Airflow and dbt ETL pipelines from AWS to Snowflake as part of a cloud database provider change.
+      - Designed, ran and monitored A/B tests to improve the NLU model and reduce operational costs.
+      - Analysed unstructured text data to surface topics and pain points and quantify them, giving a clearer picture of consumer behaviour.
+      - Built interactive dashboards that helped stakeholders make data-driven strategic decisions.
+
+  - slug: funai-rnd
+    role: Web Developer & Software QA Tester (Intern)
+    company: Funai Malaysia R&D
+    legal_name: Funai Malaysia R&D Sdn. Bhd.
+    location: Johor Bahru
+    start: 2021-03
+    end: 2021-06
+    internship: true
+    highlights:
+      - Maintained and extended an internal web-based management and testing system built on Django.
+      - Worked with the QA team testing software for Android TVs.
+
+# Featured cards each have ASCII art in templates/art/<slug>.html.
+# Keep company names out of project copy (anonymous on cards).
+projects:
+  featured:
+    - slug: ai-analyst-agent
+      title: AI Analyst Agent (MCP)
+      years: "2025"
+      domain: edtech
+      summary: Internal AI data analyst built with Gemini, Haystack, FastAPI and custom MCP servers. Teammates query Metabase, PostHog and BigQuery in plain language and build simple analyses and dashboards themselves.
+      tags: [Gemini, Haystack, FastAPI, MCP, BigQuery, PostHog]
+
+    - slug: rag-qa-chatbot
+      title: RAG Question-Answering Chatbot
+      years: 2023–25
+      domain: media
+      summary: End-to-end production chatbot using retrieval-augmented generation for a major Malaysian media group, serving customer queries across digital channels on GCP.
+      tags: [RAG, Haystack, FastAPI, GCP, Python]
+
+    - slug: adaptive-learning-recommender
+      title: Adaptive Learning Recommender
+      years: "2025"
+      domain: edtech
+      summary: Personalised learning-plan generator for an edtech platform. A Bayesian model adapts content order to each student's performance and history.
+      tags: [Python, Bayesian, ML, BigQuery, dbt]
+
+    - slug: geo-recsys
+      title: Geo-Localised Recommendation Engine
+      years: 2023–25
+      domain: media
+      summary: Hyper-personalised recommendations combining geo-location signals with behavioural data to lift organic article engagement.
+      tags: [Python, GCP, RecSys, BigQuery]
+
+  archive:
+    - slug: medallion-analytics-stack
+      title: Medallion Analytics Stack
+      summary: Built the analytics stack for an edtech platform end to end, from event collection to dashboards, organised into bronze/silver/gold layers.
+      tags: [PostHog, GA4, BigQuery, dbt, Prefect, Metabase]
+
+    - slug: onprem-to-gcp-mlops
+      title: On-Prem → GCP MLOps Migration
+      summary: Moved legacy ML inference services to containerised deployments on Cloud Run, monitored via Vertex AI.
+      tags: [GCP, Docker, Kubernetes, Kubeflow, Vertex AI, CI/CD]
+
+    - slug: nlu-ab-testing
+      title: NLU A/B Testing Framework
+      summary: Designed and monitored experiments on NLU model variants; reduced inference cost and improved intent accuracy.
+      tags: [Python, NLU, A/B Testing, Airflow]
+
+    - slug: redshift-to-snowflake
+      title: ETL Migration (Redshift → Snowflake)
+      summary: Migrated Airflow-orchestrated ETL and dbt models from AWS Redshift to Snowflake with zero downtime and full data validation.
+      tags: [Airflow, dbt, Snowflake, AWS]
+
+    - slug: steam-absa
+      title: Aspect-Based Sentiment Analysis (FYP)
+      summary: NLP on millions of Steam game reviews, covering validation, preprocessing, neural networks and classical ML.
+      tags: [NLP, TensorFlow, Scikit-learn, Pandas]
+
+    - slug: consulting-pocs
+      title: AI/ML Consulting POCs
+      summary: Client-facing POCs across computer vision, NLP and forecasting, covering scoping, building, hand-off and support.
+      tags: [Python, ML, FastAPI, Docker]
+
+    - slug: qa-management-system
+      title: Internal QA Management System
+      summary: Django web app supporting QA workflows for Android TV software.
+      tags: [Django, Python, JavaScript]
+
+    - slug: danbyte.my
+      title: danbyte.my
+      summary: This portfolio, built with FastAPI, Jinja2 and plain CSS/JS.
+      tags: [FastAPI, Jinja2, Docker]
+      url: https://github.com/danialazmie/danbyte.my
+
+skills:
+  - {group: languages, items: [Python, SQL, JavaScript, Bash]}
+  - {group: ai-ml, items: [LLMs, RAG, GenAI, NLP, MLOps, Haystack, LangChain, Hugging Face, PyTorch, TensorFlow, Scikit-learn, Pinecone, ChromaDB]}
+  - {group: data-eng, items: [dbt, BigQuery, Airflow, Prefect, Fivetran, Snowflake, Redshift, Pandas, Metabase, PostHog, GA4]}
+  - {group: cloud, items: [GCP, AWS, Azure]}
+  - {group: infra-tools, items: [FastAPI, Docker, Kubernetes, Kubeflow, Nginx, Git, CI/CD]}
+
+contact:
+  note: Open to interesting problems. The inbox is the fastest route.
+  email: danial.azmiee@gmail.com
+  links:
+    - {label: github, url: https://github.com/danialazmie}
+    - {label: linkedin, url: https://linkedin.com/in/danial-azmi}

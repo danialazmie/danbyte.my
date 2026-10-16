@@ -1,0 +1,762 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danial Azmi — Pipeline</title>
+<meta name="description" content="Danial Azmi — Data Scientist & AI Engineer working across the full data stack.">
+<meta name="color-scheme" content="dark light">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070d;
+  --bg-2:#0a0f1c;
+  --panel:rgba(16,22,38,.55);
+  --panel-solid:#0d1322;
+  --line:rgba(148,163,184,.12);
+  --line-2:rgba(148,163,184,.22);
+  --text:#e6ebf5;
+  --muted:#93a0b8;
+  --faint:#5d6982;
+  --dot:rgba(148,163,184,.13);
+  --a1:#2dd4bf;            /* teal */
+  --a2:#bef264;            /* lime */
+  --a-text:#5eead4;
+  --grad:linear-gradient(100deg,var(--a1),var(--a2));
+  --glow:rgba(45,212,191,.22);
+  --chip:rgba(148,163,184,.07);
+  --shadow:0 1px 0 rgba(255,255,255,.04) inset,0 20px 50px -24px rgba(0,0,0,.8);
+  --spot:rgba(94,234,212,.10);
+  --sans:"Geist","Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Geist Mono","JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --r:14px;
+  --max:1120px;
+  --gut:clamp(16px,4vw,32px);
+}
+@media (prefers-color-scheme: light){
+  :root{
+    --bg:#fbfcfd;
+    --bg-2:#f1f5f9;
+    --panel:rgba(255,255,255,.72);
+    --panel-solid:#ffffff;
+    --line:rgba(15,23,42,.09);
+    --line-2:rgba(15,23,42,.16);
+    --text:#0b1220;
+    --muted:#4a5568;
+    --faint:#6b7689;
+    --dot:rgba(15,23,42,.10);
+    --a1:#0f766e;
+    --a2:#4d7c0f;
+    --a-text:#0f766e;
+    --glow:rgba(13,148,136,.16);
+    --chip:rgba(15,23,42,.04);
+    --shadow:0 1px 2px rgba(15,23,42,.04),0 16px 40px -24px rgba(15,23,42,.18);
+    --spot:rgba(13,148,136,.08);
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:80px;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--bg);color:var(--text);font-family:var(--sans);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip;
+}
+body::before{ /* dot grid */
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:radial-gradient(var(--dot) 1px,transparent 1.2px);
+  background-size:22px 22px;
+  mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 85%);
+  -webkit-mask-image:radial-gradient(ellipse 90% 70% at 50% 0%,#000 30%,transparent 85%);
+}
+body::after{ /* navy wash + aurora */
+  content:"";position:fixed;inset:0;z-index:-3;pointer-events:none;
+  background:
+    radial-gradient(60% 40% at 78% -5%,var(--glow),transparent 70%),
+    radial-gradient(40% 30% at 0% 10%,rgba(99,102,241,.08),transparent 70%),
+    linear-gradient(180deg,var(--bg-2),var(--bg) 60%);
+}
+a{color:inherit}
+::selection{background:var(--a1);color:var(--bg)}
+:focus-visible{outline:2px solid var(--a1);outline-offset:3px;border-radius:6px}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut)}
+.mono{font-family:var(--mono)}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.skip{position:absolute;left:-999px;top:8px;background:var(--panel-solid);padding:8px 12px;border-radius:8px;z-index:100}
+.skip:focus{left:8px}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:saturate(160%) blur(14px);-webkit-backdrop-filter:saturate(160%) blur(14px);
+  background:color-mix(in srgb,var(--bg) 70%,transparent);
+  border-bottom:1px solid var(--line);
+}
+.nav .wrap{display:flex;align-items:center;gap:16px;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:600;letter-spacing:-.02em}
+.brand svg{flex:none}
+.brand small{font-family:var(--mono);font-weight:400;color:var(--faint);font-size:12px;letter-spacing:0}
+.nav ul{display:flex;gap:2px;list-style:none;margin:0 0 0 auto;padding:0}
+.nav ul a{
+  display:block;padding:6px 10px;border-radius:8px;text-decoration:none;
+  color:var(--muted);font-size:14px;transition:color .15s,background .15s;
+}
+.nav ul a:hover{color:var(--text);background:var(--chip)}
+.kbtn{
+  display:inline-flex;align-items:center;gap:8px;margin-left:8px;
+  font:500 13px var(--mono);color:var(--text);text-decoration:none;
+  padding:6px 10px 6px 8px;border-radius:9px;border:1px solid var(--line-2);background:var(--chip);
+  transition:border-color .2s,box-shadow .2s;
+}
+.kbtn:hover{border-color:var(--a1);box-shadow:0 0 0 4px var(--glow)}
+kbd{
+  font:500 11px var(--mono);padding:2px 6px;border-radius:5px;
+  border:1px solid var(--line-2);background:var(--panel-solid);color:var(--muted);
+  box-shadow:0 1px 0 var(--line-2);
+}
+@media (max-width:760px){
+  .nav ul{display:none}
+  .kbtn{margin-left:auto}
+}
+
+/* ---------- shared ---------- */
+section{padding:clamp(72px,10vw,120px) 0 0}
+.eyebrow{
+  font:500 12.5px var(--mono);color:var(--a-text);letter-spacing:.02em;
+  display:flex;align-items:center;gap:10px;margin:0 0 18px;
+}
+.eyebrow::after{content:"";height:1px;flex:1;max-width:120px;background:linear-gradient(90deg,var(--line-2),transparent)}
+h2{
+  font-size:clamp(28px,4.2vw,44px);line-height:1.08;letter-spacing:-.035em;
+  font-weight:600;margin:0 0 14px;max-width:20ch;
+}
+.lede{color:var(--muted);max-width:60ch;margin:0}
+.glass{
+  position:relative;background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r);box-shadow:var(--shadow);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.chip{
+  display:inline-flex;align-items:center;font:500 12px/1 var(--mono);color:var(--muted);
+  padding:6px 9px;border-radius:7px;border:1px solid var(--line);background:var(--chip);white-space:nowrap;
+}
+.chips{display:flex;flex-wrap:wrap;gap:6px;list-style:none;margin:0;padding:0}
+
+/* ---------- hero ---------- */
+.hero{padding-top:clamp(48px,8vw,96px)}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:clamp(32px,5vw,64px);align-items:center}
+.status{
+  display:inline-flex;align-items:center;gap:10px;font:500 12.5px var(--mono);color:var(--muted);
+  padding:6px 12px 6px 10px;border:1px solid var(--line);border-radius:999px;background:var(--chip);margin-bottom:28px;
+}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--a2);box-shadow:0 0 0 0 var(--a2);animation:pulse 2.4s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--a2) 60%,transparent)}70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+.hero h1{
+  font-size:clamp(44px,7.4vw,84px);line-height:.98;letter-spacing:-.055em;font-weight:650;margin:0 0 18px;
+}
+.hero h1 .hi{display:block;font-size:.36em;letter-spacing:-.02em;font-weight:450;color:var(--muted);margin-bottom:.5em}
+.hero .role{font:500 clamp(15px,1.6vw,17px) var(--mono);margin:0 0 18px;letter-spacing:-.01em}
+.hero p.sub{font-size:clamp(17px,1.8vw,19px);color:var(--muted);max-width:44ch;margin:0 0 32px;line-height:1.55}
+.cta{display:flex;flex-wrap:wrap;gap:10px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px;border-radius:10px;
+  text-decoration:none;font-weight:500;font-size:15px;transition:transform .15s,box-shadow .2s,border-color .2s;
+}
+.btn-primary{background:var(--text);color:var(--bg)}
+.btn-primary:hover{box-shadow:0 0 0 4px var(--glow),0 8px 30px -8px var(--a1);transform:translateY(-1px)}
+.btn-ghost{border:1px solid var(--line-2);background:var(--chip)}
+.btn-ghost:hover{border-color:var(--a1)}
+.btn svg{width:16px;height:16px}
+
+.flow{padding:0;overflow:hidden}
+.flow-head{
+  display:flex;align-items:center;gap:8px;padding:11px 14px;border-bottom:1px solid var(--line);
+  font:500 12px var(--mono);color:var(--faint);
+}
+.flow-head i{width:9px;height:9px;border-radius:50%;background:var(--line-2);display:block}
+.flow-head span{margin-left:8px}
+.flow-head b{margin-left:auto;font-weight:500;color:var(--a-text);display:flex;align-items:center;gap:6px}
+.flow-head b::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor;box-shadow:0 0 8px currentColor}
+.flow svg{display:block;width:100%;height:auto}
+.flow-foot{
+  display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);
+  font:12px var(--mono);color:var(--faint);
+}
+.flow-foot div{padding:10px 14px;border-right:1px solid var(--line);min-width:0}
+.flow-foot div:last-child{border-right:0}
+@media (max-width:480px){.flow-foot{font-size:11px}.flow-foot div{padding:9px 10px}}
+.flow-foot strong{display:block;color:var(--text);font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* svg diagram */
+.pipe-base{fill:none;stroke:var(--line-2);stroke-width:1.5}
+.pipe-flow{fill:none;stroke:url(#g-accent);stroke-width:1.75;stroke-dasharray:3 9;stroke-linecap:round;animation:dash 1.6s linear infinite;opacity:.9}
+@keyframes dash{to{stroke-dashoffset:-24}}
+.node rect{fill:var(--panel-solid);stroke:var(--line-2);stroke-width:1}
+.node text{font:500 17px var(--mono);fill:var(--text)}
+.node .tag{font-size:12px;fill:var(--faint);letter-spacing:.06em}
+.node.hot rect{stroke:url(#g-accent);stroke-width:1.5}
+.node .port{fill:var(--bg);stroke:var(--a1);stroke-width:1.5}
+.packet{fill:var(--a2);filter:url(#f-glow)}
+.packet.t{fill:var(--a1)}
+
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+}
+
+/* ---------- about ---------- */
+.about-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:clamp(24px,4vw,48px);align-items:start}
+.about-copy p{color:var(--muted);font-size:17px;margin:0 0 16px;max-width:60ch}
+.about-copy p strong{color:var(--text);font-weight:500}
+.facts{padding:6px 0;margin:0}
+.facts div{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line)}
+.facts div:last-child{border-bottom:0}
+.facts dt{font:12px/1.9 var(--mono);color:var(--faint)}
+.facts dd{margin:0;font-size:14.5px}
+@media (max-width:820px){.about-grid{grid-template-columns:1fr}}
+@media (max-width:420px){.facts div{grid-template-columns:1fr;gap:2px}}
+
+/* ---------- experience ---------- */
+.timeline{list-style:none;margin:48px 0 0;padding:0;position:relative}
+.timeline::before{
+  content:"";position:absolute;left:11px;top:10px;bottom:10px;width:2px;border-radius:2px;
+  background:linear-gradient(180deg,var(--a2),var(--a1) 35%,color-mix(in srgb,var(--a1) 25%,transparent) 80%,transparent);
+  box-shadow:0 0 14px var(--glow);
+}
+.timeline::after{ /* travelling packet */
+  content:"";position:absolute;left:9px;top:0;width:6px;height:40px;border-radius:6px;
+  background:linear-gradient(180deg,transparent,var(--a2),transparent);filter:blur(.5px);
+  animation:travel 5s cubic-bezier(.5,0,.5,1) infinite;
+}
+@keyframes travel{0%{transform:translateY(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateY(var(--tl-h,900px));opacity:0}}
+.job{position:relative;padding-left:48px;margin-bottom:20px}
+.job::before{
+  content:"";position:absolute;left:4px;top:24px;width:16px;height:16px;border-radius:50%;
+  background:var(--bg);border:2px solid var(--a1);box-shadow:0 0 0 5px var(--bg),0 0 16px var(--glow);
+}
+.job.now::before{border-color:var(--a2);background:var(--a2);box-shadow:0 0 0 5px var(--bg),0 0 22px var(--a2)}
+.job .card{padding:20px 22px}
+.job-top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-bottom:4px}
+.job h3{font-size:18px;letter-spacing:-.02em;font-weight:600;margin:0}
+.job .at{color:var(--muted);font-weight:400}
+.job .when{margin-left:auto;font:12.5px var(--mono);color:var(--faint);white-space:nowrap}
+.job .meta{font:12px var(--mono);color:var(--faint);margin:0 0 12px;display:flex;gap:10px;flex-wrap:wrap}
+.job .meta .state{color:var(--a-text)}
+.job ul{margin:0;padding:0;list-style:none}
+.job li{position:relative;padding-left:20px;color:var(--muted);font-size:15px;margin:6px 0}
+.job li::before{content:"→";position:absolute;left:0;color:var(--faint);font-family:var(--mono);font-size:13px;top:1px}
+@media (max-width:560px){
+  .job .when{margin-left:0;width:100%}
+  .job .card{padding:18px}
+  .job{padding-left:40px}
+}
+
+/* ---------- projects / bento ---------- */
+.bento{display:grid;grid-template-columns:repeat(12,1fr);gap:14px;margin-top:48px}
+.card{overflow:hidden}
+.spot::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;
+  background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),var(--spot),transparent 45%);
+}
+.spot::after{ /* border spotlight */
+  content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;padding:1px;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--a1) 70%,transparent),transparent 60%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask-composite:exclude;
+}
+.spot:hover::before,.spot:hover::after,.spot:focus-within::before,.spot:focus-within::after{opacity:1}
+.proj{padding:24px;display:flex;flex-direction:column;gap:14px;min-height:240px}
+.proj-head{display:flex;align-items:center;gap:10px;font:12px var(--mono);color:var(--faint)}
+.proj-head .idx{color:var(--a-text)}
+.proj-head .path{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.proj h3{font-size:clamp(20px,2.2vw,24px);letter-spacing:-.03em;font-weight:600;margin:0;line-height:1.2}
+.proj p{color:var(--muted);margin:0;font-size:15px;max-width:52ch}
+.proj .chips{margin-top:auto}
+.f1{grid-column:span 7}
+.f2{grid-column:span 5}
+.f3{grid-column:span 5}
+.f4{grid-column:span 7}
+.mini-flow{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:12px;border-radius:10px;
+  border:1px dashed var(--line-2);background:color-mix(in srgb,var(--bg) 40%,transparent);font:12px var(--mono);color:var(--muted);
+}
+.mini-flow .arr{color:var(--a-text)}
+.mini-flow .hl{color:var(--text);border-color:color-mix(in srgb,var(--a1) 50%,transparent)}
+.more-head{grid-column:1/-1;display:flex;align-items:center;gap:12px;margin:22px 0 4px;font:12.5px var(--mono);color:var(--faint)}
+.more-head::after{content:"";flex:1;height:1px;background:var(--line)}
+.small{grid-column:span 3;padding:18px;display:flex;flex-direction:column;gap:8px}
+.small h4{font-size:15.5px;letter-spacing:-.015em;font-weight:600;margin:0;line-height:1.3}
+.small p{font-size:13.5px;color:var(--muted);margin:0;line-height:1.5}
+.small .chips{margin-top:auto;padding-top:6px}
+.small .chip{font-size:11px;padding:4px 7px}
+.small a{text-decoration:none}
+.small a::after{content:"";position:absolute;inset:0}
+.small .ext{font:12px var(--mono);color:var(--a-text)}
+@media (max-width:980px){
+  .small{grid-column:span 6}
+}
+@media (max-width:820px){
+  .f1,.f2,.f3,.f4{grid-column:1/-1}
+  .proj{min-height:0}
+}
+@media (max-width:520px){
+  .small{grid-column:1/-1}
+}
+
+/* ---------- skills ---------- */
+.skills{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:48px}
+.skill{padding:20px;grid-column:span 2}
+.skill.wide{grid-column:span 4}
+.skill h3{font:500 12.5px var(--mono);color:var(--faint);margin:0 0 14px;display:flex;justify-content:space-between;letter-spacing:.02em}
+.skill h3 span{color:var(--a-text)}
+.skill .chip{color:var(--text);font-size:12.5px}
+@media (max-width:900px){.skill,.skill.wide{grid-column:span 3}.skill.wide{grid-column:1/-1}}
+@media (max-width:560px){.skill,.skill.wide{grid-column:1/-1}}
+
+/* ---------- contact / palette ---------- */
+.contact{padding-bottom:40px}
+.contact-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:clamp(28px,5vw,64px);align-items:center}
+.palette{overflow:hidden;box-shadow:var(--shadow),0 0 0 1px var(--line),0 40px 120px -40px var(--glow)}
+.pal-input{
+  display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line);
+  font-size:16px;color:var(--muted);
+}
+.pal-input svg{flex:none;color:var(--faint)}
+.caret{display:inline-block;width:1.5px;height:1.1em;background:var(--a1);vertical-align:-3px;margin-left:2px;animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.pal-input kbd{margin-left:auto}
+.pal-group{padding:8px}
+.pal-label{font:11.5px var(--mono);color:var(--faint);padding:8px 10px 6px;letter-spacing:.04em}
+.pal-item{
+  display:flex;align-items:center;gap:12px;padding:11px 10px;border-radius:9px;text-decoration:none;
+  color:var(--text);font-size:15px;outline:none;position:relative;
+}
+.pal-item .ic{
+  width:30px;height:30px;border-radius:8px;display:grid;place-items:center;flex:none;
+  border:1px solid var(--line-2);background:var(--chip);color:var(--muted);
+}
+.pal-item .ic svg{width:15px;height:15px}
+.pal-item .txt{min-width:0;display:flex;flex-direction:column;line-height:1.3}
+.pal-item .txt small{font:12px var(--mono);color:var(--faint);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pal-item .keys{margin-left:auto;display:flex;gap:4px;flex:none}
+.pal-item:hover,.pal-item:focus-visible,.pal-item.active{background:var(--chip)}
+.pal-item:focus-visible,.pal-item.active{box-shadow:inset 0 0 0 1px var(--line-2)}
+.pal-item.active .ic,.pal-item:focus-visible .ic{color:var(--bg);background:var(--grad);border-color:transparent}
+.pal-item.active::before,.pal-item:focus-visible::before{content:"";position:absolute;left:-8px;top:10px;bottom:10px;width:2px;border-radius:2px;background:var(--grad)}
+.pal-foot{
+  display:flex;gap:16px;flex-wrap:wrap;padding:10px 18px;border-top:1px solid var(--line);
+  font:11.5px var(--mono);color:var(--faint);
+}
+.pal-foot span{display:flex;align-items:center;gap:6px}
+@media (max-width:860px){.contact-grid{grid-template-columns:1fr}}
+@media (max-width:420px){.pal-item .keys{display:none}}
+
+footer{border-top:1px solid var(--line);margin-top:96px;padding:28px 0 80px;font:12.5px var(--mono);color:var(--faint)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--text)}
+
+.badge{
+  position:fixed;left:16px;bottom:16px;z-index:60;
+  font:500 11.5px var(--mono);color:var(--text);padding:7px 11px;border-radius:999px;
+  border:1px solid var(--line-2);background:color-mix(in srgb,var(--panel-solid) 85%,transparent);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);display:flex;align-items:center;gap:8px;
+}
+.badge::before{content:"";width:7px;height:7px;border-radius:2px;background:var(--grad)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+  .packet{display:none}
+  .timeline::after{display:none}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav">
+  <nav class="wrap" aria-label="Primary">
+    <a class="brand" href="#top" aria-label="danbyte — home">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+        <defs><linearGradient id="g-logo" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--a1)"/><stop offset="1" style="stop-color:var(--a2)"/></linearGradient></defs>
+        <rect x="1" y="1" width="22" height="22" rx="6" fill="none" stroke="url(#g-logo)" stroke-width="1.5"/>
+        <circle cx="7" cy="8" r="1.8" style="fill:var(--a1)"/><circle cx="17" cy="12" r="1.8" fill="url(#g-logo)"/><circle cx="7" cy="16" r="1.8" style="fill:var(--a2)"/>
+        <path d="M8.6 8.6 15.4 11.4M8.6 15.4 15.4 12.6" stroke="url(#g-logo)" stroke-width="1.2"/>
+      </svg>
+      danbyte<small>.my</small>
+    </a>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#skills">Skills</a></li>
+    </ul>
+    <a class="kbtn" href="#contact" id="kopen"><kbd>⌘K</kbd> Contact</a>
+  </nav>
+</header>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="wrap hero-grid">
+      <div class="rv">
+        <div class="status"><span class="pulse" aria-hidden="true"></span>Open to interesting problems.</div>
+        <h1 id="hero-title"><span class="hi">Hello, I'm</span>Danial Azmi</h1>
+        <p class="role"><span class="grad-text">Data Scientist &amp; AI Engineer</span></p>
+        <p class="sub">Working across the full data stack — from data platforms to ML models to GenAI applications.</p>
+        <div class="cta">
+          <a class="btn btn-primary" href="#projects">View work
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg></a>
+          <a class="btn btn-ghost" href="mailto:danial.azmiee@gmail.com">Get in touch</a>
+        </div>
+      </div>
+
+      <figure class="glass flow rv" style="margin:0" aria-labelledby="flow-cap">
+        <div class="flow-head" aria-hidden="true"><i></i><i></i><i></i><span>pipeline.yaml</span><b>running</b></div>
+        <svg viewBox="0 0 600 300" role="img" aria-labelledby="flow-cap">
+          <defs>
+            <linearGradient id="g-accent" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0" style="stop-color:var(--a1)"/><stop offset="1" style="stop-color:var(--a2)"/>
+            </linearGradient>
+            <filter id="f-glow" x="-200%" y="-200%" width="500%" height="500%">
+              <feGaussianBlur stdDeviation="2.4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <path id="route" d="M95 82 H505 C575 82 575 218 505 218 H95"/>
+          </defs>
+          <use href="#route" class="pipe-base"/>
+          <use href="#route" class="pipe-flow"/>
+
+          <g class="node" transform="translate(95 82)"><rect x="-70" y="-26" width="140" height="52" rx="12"/><text text-anchor="middle" y="-2">raw data</text><text class="tag" text-anchor="middle" y="15">SOURCE</text></g>
+          <g class="node" transform="translate(300 82)"><rect x="-70" y="-26" width="140" height="52" rx="12"/><text text-anchor="middle" y="-2">bronze</text><text class="tag" text-anchor="middle" y="15">INGEST</text></g>
+          <g class="node" transform="translate(505 82)"><rect x="-70" y="-26" width="140" height="52" rx="12"/><text text-anchor="middle" y="-2">silver</text><text class="tag" text-anchor="middle" y="15">CLEAN</text></g>
+          <g class="node" transform="translate(505 218)"><rect x="-70" y="-26" width="140" height="52" rx="12"/><text text-anchor="middle" y="-2">gold</text><text class="tag" text-anchor="middle" y="15">MODEL-READY</text></g>
+          <g class="node" transform="translate(300 218)"><rect x="-70" y="-26" width="140" height="52" rx="12"/><text text-anchor="middle" y="-2">model</text><text class="tag" text-anchor="middle" y="15">ML / LLM</text></g>
+          <g class="node hot" transform="translate(95 218)"><rect x="-70" y="-26" width="140" height="52" rx="12"/><text text-anchor="middle" y="-2">agent</text><text class="tag" text-anchor="middle" y="15">MCP · RAG</text></g>
+
+          <circle class="packet" r="4"><animateMotion dur="6s" repeatCount="indefinite" rotate="auto" keyPoints="0;1" keyTimes="0;1" calcMode="linear"><mpath href="#route"/></animateMotion></circle>
+          <circle class="packet t" r="3.5"><animateMotion dur="6s" begin="-2s" repeatCount="indefinite" calcMode="linear"><mpath href="#route"/></animateMotion></circle>
+          <circle class="packet" r="3"><animateMotion dur="6s" begin="-4s" repeatCount="indefinite" calcMode="linear"><mpath href="#route"/></animateMotion></circle>
+        </svg>
+        <figcaption id="flow-cap" class="flow-foot">
+          <div>now<strong>Tupai AI</strong></div>
+          <div>based<strong>Petaling Jaya, MY</strong></div>
+          <div>stages<strong>raw → agent</strong></div>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" aria-labelledby="about-title">
+    <div class="wrap">
+      <p class="eyebrow">// 01 — about</p>
+      <div class="about-grid">
+        <div class="about-copy rv">
+          <h2 id="about-title">Making models <span class="grad-text">useful</span>, not just accurate.</h2>
+          <p>I'm a data scientist working across the full data stack — from building data platforms, to training ML models, to shipping GenAI applications in production. My focus is <strong>bridging the gap between advanced AI/ML systems and real business needs.</strong></p>
+          <p>Over the past ~4.5 years I've worked across fintech, media, consulting and edtech — migrating pipelines, standing up MLOps on the cloud, building recommendation engines, and lately, building RAG chatbots and AI agents that talk to company data through MCP.</p>
+        </div>
+        <dl class="glass facts rv">
+          <div><dt>role</dt><dd>Data Scientist @ Tupai AI</dd></div>
+          <div><dt>location</dt><dd>Petaling Jaya, Selangor, Malaysia</dd></div>
+          <div><dt>domains</dt><dd>Fintech · Media · Consulting · Edtech</dd></div>
+          <div><dt>education</dt><dd>B.CS (Data Science), Multimedia University, 2017–2021</dd></div>
+          <div><dt>scholar</dt><dd>Yayasan Telekom Malaysia</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience" aria-labelledby="exp-title">
+    <div class="wrap">
+      <p class="eyebrow">// 02 — experience</p>
+      <h2 id="exp-title">Five stages, one pipeline.</h2>
+      <p class="lede">From QA tooling to production AI agents — newest first.</p>
+
+      <ol class="timeline" id="timeline">
+        <li class="job now rv">
+          <article class="glass card">
+            <div class="job-top"><h3>Data Scientist <span class="at">· Tupai AI (AI Teacher Sdn. Bhd.)</span></h3><span class="when">Sep 2025 — Present</span></div>
+            <p class="meta"><span class="state">● running</span><span>Kuala Lumpur</span></p>
+            <ul>
+              <li>Own the analytical data stack (warehouse, pipelines, BI) and restructured it into a medallion (bronze/silver/gold) architecture.</li>
+              <li>Built a Bayesian recommendation system that generates customised learning plans for students.</li>
+              <li>Created an internal AI agent backed by MCP servers that works as a data analyst for the team.</li>
+            </ul>
+          </article>
+        </li>
+        <li class="job rv">
+          <article class="glass card">
+            <div class="job-top"><h3>Data Scientist <span class="at">· REV Media Group</span></h3><span class="when">Sep 2023 — Sep 2025</span></div>
+            <p class="meta"><span class="state">✓ exit 0</span><span>Kuala Lumpur</span></p>
+            <ul>
+              <li>Built and deployed a RAG-based question-answering chatbot on GCP.</li>
+              <li>Introduced CI/CD practices and migrated on-premise ML models to GCP.</li>
+              <li>Developed a geo-locational recommendation engine for article engagement.</li>
+            </ul>
+          </article>
+        </li>
+        <li class="job rv">
+          <article class="glass card">
+            <div class="job-top"><h3>Data Science Consultant <span class="at">· DataMicron Systems Sdn. Bhd.</span></h3><span class="when">Feb 2023 — Sep 2023</span></div>
+            <p class="meta"><span class="state">✓ exit 0</span><span>Kuala Lumpur</span></p>
+            <ul>
+              <li>Ran research and POCs for AI/ML use cases (computer vision, NLP, forecasting), working directly with clients.</li>
+              <li>Oversaw project lifecycles from development through post-launch maintenance.</li>
+            </ul>
+          </article>
+        </li>
+        <li class="job rv">
+          <article class="glass card">
+            <div class="job-top"><h3>Data Scientist <span class="at">· MoneyLion Malaysia Sdn. Bhd.</span></h3><span class="when">Mar 2022 — Dec 2022</span></div>
+            <p class="meta"><span class="state">✓ exit 0</span><span>Kuala Lumpur</span></p>
+            <ul>
+              <li>Helped migrate ETL pipelines from AWS to Snowflake.</li>
+              <li>Ran A/B tests to improve NLU model performance and cut operational costs.</li>
+              <li>Built analytical dashboards for stakeholders.</li>
+            </ul>
+          </article>
+        </li>
+        <li class="job rv">
+          <article class="glass card">
+            <div class="job-top"><h3>Web Developer &amp; Software QA Tester <span class="at">· Funai Malaysia R&amp;D (Intern)</span></h3><span class="when">Mar 2021 — Jun 2021</span></div>
+            <p class="meta"><span class="state">✓ exit 0</span><span>Johor Bahru</span></p>
+            <ul>
+              <li>Maintained a Django-based internal management and testing system.</li>
+              <li>Supported QA testing for Android TV software.</li>
+            </ul>
+          </article>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" aria-labelledby="proj-title">
+    <div class="wrap">
+      <p class="eyebrow">// 03 — projects</p>
+      <h2 id="proj-title">Selected work, from warehouse to agent.</h2>
+      <p class="lede">Production systems across data platforms, recommendation, and GenAI.</p>
+
+      <div class="bento">
+        <article class="glass card spot proj f1 rv">
+          <div class="proj-head"><span class="idx">01</span><span class="path">~/genai/ai-analyst-agent</span></div>
+          <h3>AI Analyst Agent (MCP)</h3>
+          <p>Internal AI data analyst built with Gemini, Haystack, FastAPI and MCP servers. Team members query Metabase, PostHog and BigQuery in plain language.</p>
+          <div class="mini-flow" aria-label="Flow: question to agent to data sources">
+            <span class="chip">plain-language question</span><span class="arr">→</span>
+            <span class="chip hl">Gemini + MCP</span><span class="arr">→</span>
+            <span class="chip">Metabase</span><span class="chip">PostHog</span><span class="chip">BigQuery</span>
+          </div>
+          <ul class="chips"><li class="chip">Gemini</li><li class="chip">Haystack</li><li class="chip">FastAPI</li><li class="chip">MCP</li><li class="chip">BigQuery</li><li class="chip">PostHog</li></ul>
+        </article>
+
+        <article class="glass card spot proj f2 rv">
+          <div class="proj-head"><span class="idx">02</span><span class="path">~/genai/rag-chatbot</span></div>
+          <h3>RAG Question-Answering Chatbot</h3>
+          <p>End-to-end production chatbot using retrieval-augmented generation for a major Malaysian media group, serving customer queries across digital channels on GCP.</p>
+          <ul class="chips"><li class="chip">RAG</li><li class="chip">Haystack</li><li class="chip">FastAPI</li><li class="chip">GCP</li><li class="chip">Python</li></ul>
+        </article>
+
+        <article class="glass card spot proj f3 rv">
+          <div class="proj-head"><span class="idx">03</span><span class="path">~/ml/adaptive-learning</span></div>
+          <h3>Adaptive Learning Recommender</h3>
+          <p>Personalised learning-plan generator for an edtech platform. A Bayesian model adapts content order to each student's performance and history.</p>
+          <ul class="chips"><li class="chip">Python</li><li class="chip">Bayesian</li><li class="chip">ML</li><li class="chip">BigQuery</li><li class="chip">dbt</li></ul>
+        </article>
+
+        <article class="glass card spot proj f4 rv">
+          <div class="proj-head"><span class="idx">04</span><span class="path">~/recsys/geo-recommender</span></div>
+          <h3>Geo-Localised Recommendation Engine</h3>
+          <p>Hyper-personalised recommendations combining geo-location signals with behavioural data to lift organic article engagement.</p>
+          <div class="mini-flow" aria-label="Flow: signals to recommendations">
+            <span class="chip">geo-location</span><span class="chip">behavioural data</span><span class="arr">→</span>
+            <span class="chip hl">RecSys</span><span class="arr">→</span><span class="chip">article engagement</span>
+          </div>
+          <ul class="chips"><li class="chip">Python</li><li class="chip">GCP</li><li class="chip">RecSys</li><li class="chip">BigQuery</li></ul>
+        </article>
+
+        <p class="more-head">more — 8 more projects</p>
+
+        <article class="glass card spot small rv">
+          <h4>Medallion Architecture Data Stack</h4>
+          <p>Refactored a production warehouse to bronze/silver/gold layers, improving reliability, test coverage and documentation.</p>
+          <ul class="chips"><li class="chip">dbt</li><li class="chip">BigQuery</li><li class="chip">Fivetran</li></ul>
+        </article>
+        <article class="glass card spot small rv">
+          <h4>On-Prem → GCP MLOps Migration</h4>
+          <p>Moved legacy ML inference services to containerised deployments on Cloud Run, monitored via Vertex AI.</p>
+          <ul class="chips"><li class="chip">GCP</li><li class="chip">Docker</li><li class="chip">Kubeflow</li><li class="chip">Vertex AI</li></ul>
+        </article>
+        <article class="glass card spot small rv">
+          <h4>NLU A/B Testing Framework</h4>
+          <p>Designed and monitored experiments on NLU model variants; reduced inference cost and improved intent accuracy.</p>
+          <ul class="chips"><li class="chip">Python</li><li class="chip">NLU</li><li class="chip">A/B Testing</li><li class="chip">Airflow</li></ul>
+        </article>
+        <article class="glass card spot small rv">
+          <h4>ETL Migration (Redshift → Snowflake)</h4>
+          <p>Migrated Airflow-orchestrated ETL and dbt models with zero downtime and full data validation.</p>
+          <ul class="chips"><li class="chip">Airflow</li><li class="chip">dbt</li><li class="chip">Snowflake</li><li class="chip">AWS</li></ul>
+        </article>
+        <article class="glass card spot small rv">
+          <h4>Aspect-Based Sentiment Analysis</h4>
+          <p>NLP on millions of Steam game reviews: validation, preprocessing, neural networks and classical ML.</p>
+          <ul class="chips"><li class="chip">NLP</li><li class="chip">TensorFlow</li><li class="chip">Scikit-learn</li></ul>
+        </article>
+        <article class="glass card spot small rv">
+          <h4>AI/ML Consulting POCs</h4>
+          <p>Client-facing POCs across computer vision, NLP and forecasting — scoping, building, hand-off, support.</p>
+          <ul class="chips"><li class="chip">Python</li><li class="chip">ML</li><li class="chip">FastAPI</li><li class="chip">Docker</li></ul>
+        </article>
+        <article class="glass card spot small rv">
+          <h4>Internal QA Management System</h4>
+          <p>Django web app supporting QA workflows for Android TV firmware releases.</p>
+          <ul class="chips"><li class="chip">Django</li><li class="chip">Python</li><li class="chip">JavaScript</li></ul>
+        </article>
+        <article class="glass card spot small rv">
+          <h4><a href="https://github.com/danialazmie/danbyte.my">danbyte.my</a></h4>
+          <p>This portfolio. Source on GitHub.</p>
+          <span class="ext">github.com/danialazmie/danbyte.my ↗</span>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" aria-labelledby="skills-title">
+    <div class="wrap">
+      <p class="eyebrow">// 04 — skills</p>
+      <h2 id="skills-title">The stack, end to end.</h2>
+      <div class="skills">
+        <div class="glass skill spot rv">
+          <h3>languages <span>04</span></h3>
+          <ul class="chips"><li class="chip">Python</li><li class="chip">SQL</li><li class="chip">JavaScript</li><li class="chip">Bash</li></ul>
+        </div>
+        <div class="glass skill wide spot rv">
+          <h3>ai / ml <span>13</span></h3>
+          <ul class="chips"><li class="chip">LLMs</li><li class="chip">RAG</li><li class="chip">GenAI</li><li class="chip">NLP</li><li class="chip">MLOps</li><li class="chip">Haystack</li><li class="chip">LangChain</li><li class="chip">Hugging Face</li><li class="chip">PyTorch</li><li class="chip">TensorFlow</li><li class="chip">Scikit-learn</li><li class="chip">Pinecone</li><li class="chip">ChromaDB</li></ul>
+        </div>
+        <div class="glass skill wide spot rv">
+          <h3>data engineering <span>09</span></h3>
+          <ul class="chips"><li class="chip">dbt</li><li class="chip">BigQuery</li><li class="chip">Airflow</li><li class="chip">Fivetran</li><li class="chip">Snowflake</li><li class="chip">Redshift</li><li class="chip">Pandas</li><li class="chip">Metabase</li><li class="chip">PostHog</li></ul>
+        </div>
+        <div class="glass skill spot rv">
+          <h3>cloud <span>03</span></h3>
+          <ul class="chips"><li class="chip">GCP</li><li class="chip">AWS</li><li class="chip">Azure</li></ul>
+        </div>
+        <div class="glass skill spot rv" style="grid-column:1/-1">
+          <h3>infra &amp; tools <span>07</span></h3>
+          <ul class="chips"><li class="chip">FastAPI</li><li class="chip">Docker</li><li class="chip">Kubernetes</li><li class="chip">Kubeflow</li><li class="chip">Nginx</li><li class="chip">Git</li><li class="chip">CI/CD</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact" aria-labelledby="contact-title">
+    <div class="wrap contact-grid">
+      <div class="rv">
+        <p class="eyebrow">// 05 — contact</p>
+        <h2 id="contact-title">Got an interesting problem?</h2>
+        <p class="lede">Data platforms, ML models, GenAI in production — or something in between. The fastest route is email.</p>
+      </div>
+
+      <div class="glass palette rv" role="group" aria-label="Contact command palette">
+        <div class="pal-input" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <span>reach danial<span class="caret"></span></span>
+          <kbd>esc</kbd>
+        </div>
+        <div class="pal-group" id="palette">
+          <div class="pal-label">CONTACT</div>
+          <a class="pal-item active" href="mailto:danial.azmiee@gmail.com">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+            <span class="txt">Email Danial<small>danial.azmiee@gmail.com</small></span>
+            <span class="keys" aria-hidden="true"><kbd>⌘</kbd><kbd>K</kbd></span>
+          </a>
+          <a class="pal-item" href="https://linkedin.com/in/danial-azmi" target="_blank" rel="noopener">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9.5h4V21H3V9.5Zm6.5 0h3.8v1.6h.06c.53-1 1.83-2.06 3.77-2.06 4.03 0 4.77 2.65 4.77 6.1V21h-4v-5.1c0-1.22-.02-2.78-1.7-2.78-1.7 0-1.96 1.33-1.96 2.7V21h-4V9.5Z"/></svg></span>
+            <span class="txt">Connect on LinkedIn<small>linkedin.com/in/danial-azmi</small></span>
+            <span class="keys" aria-hidden="true"><kbd>L</kbd></span>
+          </a>
+          <a class="pal-item" href="https://github.com/danialazmie" target="_blank" rel="noopener">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></span>
+            <span class="txt">Browse GitHub<small>github.com/danialazmie</small></span>
+            <span class="keys" aria-hidden="true"><kbd>G</kbd></span>
+          </a>
+        </div>
+        <div class="pal-foot" aria-hidden="true"><span><kbd>↑</kbd><kbd>↓</kbd> navigate</span><span><kbd>↵</kbd> open</span><span><kbd>⌘K</kbd> jump here</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Danial Azmi · danbyte.my</span>
+    <span><a href="mailto:danial.azmiee@gmail.com">email</a> · <a href="https://github.com/danialazmie">github</a> · <a href="https://linkedin.com/in/danial-azmi">linkedin</a></span>
+  </div>
+</footer>
+
+<div class="badge" aria-hidden="true">Theme 05 · Pipeline</div>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Pause SMIL packets for reduced motion
+  if (reduce) document.querySelectorAll('svg').forEach(s => s.pauseAnimations && s.pauseAnimations());
+
+  // Cursor-follow spotlight
+  document.querySelectorAll('.spot').forEach(el => {
+    el.addEventListener('pointermove', e => {
+      const r = el.getBoundingClientRect();
+      el.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      el.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // Reveal on scroll
+  const rv = document.querySelectorAll('.rv');
+  if (reduce || !('IntersectionObserver' in window)) rv.forEach(n => n.classList.add('in'));
+  else {
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    rv.forEach(n => io.observe(n));
+  }
+
+  // Timeline packet travel distance
+  const tl = document.getElementById('timeline');
+  const setH = () => tl.style.setProperty('--tl-h', (tl.offsetHeight - 40) + 'px');
+  setH(); addEventListener('resize', setH);
+
+  // Command palette: ⌘K / Ctrl+K jumps here, arrows navigate
+  const items = [...document.querySelectorAll('.pal-item')];
+  const setActive = i => { items.forEach((n, j) => n.classList.toggle('active', j === i)); items[i].focus({ preventScroll: true }); };
+  const jump = () => {
+    document.getElementById('contact').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    setTimeout(() => setActive(0), reduce ? 0 : 450);
+  };
+  addEventListener('keydown', e => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); jump(); }
+  });
+  document.getElementById('kopen').addEventListener('click', e => { e.preventDefault(); jump(); });
+  document.getElementById('palette').addEventListener('keydown', e => {
+    const i = items.indexOf(document.activeElement);
+    if (i < 0) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); setActive((i + 1) % items.length); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); setActive((i - 1 + items.length) % items.length); }
+    if (e.key === 'Escape') document.activeElement.blur();
+  });
+  items.forEach((n, i) => n.addEventListener('mouseenter', () => items.forEach((m, j) => m.classList.toggle('active', j === i))));
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Theme Gallery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#f6f6f4; --fg:#18181b; --muted:#6b6b70; --card:#fff; --line:#e4e4e0; --accent:#2563eb; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg:#111113; --fg:#ececee; --muted:#9a9aa2; --card:#1a1a1d; --line:#2a2a2e; --accent:#7aa2ff; }
+  }
+  :root[data-theme="dark"] { --bg:#111113; --fg:#ececee; --muted:#9a9aa2; --card:#1a1a1d; --line:#2a2a2e; --accent:#7aa2ff; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.5 Inter, system-ui, sans-serif; }
+  header { max-width:1200px; margin:0 auto; padding:40px 16px 16px; }
+  h1 { margin:0 0 6px; font-size:28px; letter-spacing:-.02em; }
+  header p { margin:0; color:var(--muted); max-width:60ch; }
+  .controls { display:flex; gap:8px; flex-wrap:wrap; margin-top:20px; }
+  .controls button { font:inherit; font-size:13px; padding:6px 12px; border-radius:999px; border:1px solid var(--line); background:var(--card); color:var(--fg); cursor:pointer; }
+  .controls button[aria-pressed="true"] { border-color:var(--accent); color:var(--accent); }
+  main { max-width:1200px; margin:0 auto; padding:16px; display:grid; grid-template-columns:repeat(auto-fill, minmax(340px, 1fr)); gap:20px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; display:flex; flex-direction:column; }
+  .frame { position:relative; height:var(--h, 520px); overflow:hidden; border-bottom:1px solid var(--line); background:#fff; }
+  .frame iframe { position:absolute; top:0; left:0; border:0; width:calc(100% / var(--s)); height:calc(100% / var(--s)); transform:scale(var(--s)); transform-origin:0 0; }
+  .meta { padding:14px 16px 16px; display:flex; flex-direction:column; gap:6px; }
+  .meta h2 { margin:0; font-size:16px; }
+  .meta p { margin:0; color:var(--muted); font-size:13.5px; }
+  .meta a { color:var(--accent); font-size:13px; font-weight:500; text-decoration:none; }
+  .meta a:hover { text-decoration:underline; }
+  @media (max-width:400px) { main { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>danbyte.my: theme gallery</h1>
+  <p>Five directions for the new portfolio, all using the same content. Scroll inside each preview, or open it full size.</p>
+  <div class="controls" role="group" aria-label="Preview viewport">
+    <button data-vw="desktop" aria-pressed="true">Desktop preview</button>
+    <button data-vw="mobile" aria-pressed="false">Mobile preview</button>
+  </div>
+</header>
+<main id="grid"></main>
+<script>
+  const themes = [
+    ["01-terminal-v2.html", "01 · Terminal v2 (selected)", "Terminal theme with a text-mode career timeline plot and lazygit-style project panes with ASCII art."],
+    ["01-terminal.html", "01 · Terminal", "Dev-terminal aesthetic. Sections are shell commands and a working prompt. Nerdy and memorable."],
+    ["02-editorial.html", "02 · Editorial", "Magazine-feature typography on warm paper. Mature, calm, and reads as senior."],
+    ["03-notebook.html", "03 · Notebook", "The portfolio as a styled Jupyter notebook, with real charts. Unmistakably a data scientist."],
+    ["04-brutalist.html", "04 · Brutalist", "Thick borders, hard shadows, loud blocks of colour. Playful and confident."],
+    ["05-pipeline.html", "05 · Pipeline", "Sleek dark dev-tool UI with an animated data-pipeline motif. Modern AI-engineer energy."],
+  ];
+  const grid = document.getElementById("grid");
+  grid.innerHTML = themes.map(([f, t, d]) => `
+    <article class="card">
+      <div class="frame"><iframe src="${f}" title="${t} preview" loading="lazy"></iframe></div>
+      <div class="meta"><h2>${t}</h2><p>${d}</p><a href="${f}" target="_blank" rel="noopener">Open full size ↗</a></div>
+    </article>`).join("");
+  const frames = () => document.querySelectorAll(".frame");
+  let mode = "desktop";
+  function fit() {
+    frames().forEach(fr => {
+      const vw = mode === "desktop" ? 1280 : 390;
+      const s = fr.clientWidth / vw;
+      fr.style.setProperty("--s", s);
+      fr.style.setProperty("--h", mode === "desktop" ? "420px" : "640px");
+    });
+  }
+  document.querySelectorAll("[data-vw]").forEach(b => b.addEventListener("click", () => {
+    mode = b.dataset.vw;
+    document.querySelectorAll("[data-vw]").forEach(x => x.setAttribute("aria-pressed", x === b));
+    fit();
+    requestAnimationFrame(fit);
+  }));
+  addEventListener("resize", fit);
+  fit();
+</script>
+</body>
+</html>

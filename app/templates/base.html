@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ c.profile.name }} · {{ c.profile.roles | join(' & ') }}{% endblock %}</title>
+<meta name="description" content="{{ c.site.description }}">
+<link rel="canonical" href="{{ c.site.url }}">
+<meta name="theme-color" content="#13100c">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ c.site.url }}">
+<meta property="og:title" content="{{ c.profile.name }} · {{ c.profile.roles | join(' & ') }}">
+<meta property="og:description" content="{{ c.site.description }}">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+<link rel="preload" href="/static/fonts/JetBrainsMono-Regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/static/fonts/JetBrainsMono-Bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="{{ asset('css/main.css') }}">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="tmux" role="banner">
+  <div class="tmux-inner">
+    <span class="sess" aria-hidden="true">[danbyte]</span>
+    <nav aria-label="Primary" class="tmux-nav">
+      <ol>
+        {% for id, label in [('top', '~'), ('about', 'about'), ('career', 'career'), ('projects', 'projects'), ('skills', 'skills'), ('contact', 'contact')] %}
+        <li><a href="/#{{ id }}" data-sec="{{ id }}"><span class="n">{{ loop.index0 }}:</span>{{ label }}</a></li>
+        {% endfor %}
+      </ol>
+    </nav>
+    <div class="right" aria-hidden="true">
+      <span class="loc">{{ c.profile.location_short }}</span>
+      <span class="clock" id="clock">--:--</span>
+      <span class="host">{{ c.profile.handle }}</span>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+{% block content %}{% endblock %}
+</main>
+
+<footer>
+  <span>© <span id="yr">{{ c.year }}</span> {{ c.profile.name }} · {{ c.site.domain }}</span>
+  <span>[exit 0] built with FastAPI &amp; Jinja2</span>
+</footer>
+
+{% block scripts %}<script src="{{ asset('js/main.js') }}" defer></script>{% endblock %}
+</body>
+</html>

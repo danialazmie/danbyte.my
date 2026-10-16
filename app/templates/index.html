@@ -1,0 +1,162 @@
+{% extends "base.html" %}
+{% set github = c.contact.link('github') %}
+{% set linkedin = c.contact.link('linkedin') %}
+
+{% block content %}
+  <!-- HERO -->
+  <section class="hero" id="top" aria-labelledby="hero-name">
+    <div class="win">
+      <div class="win-bar" aria-hidden="true">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="t">{{ c.profile.handle }}: ~ — zsh — 80×24</span>
+        <span style="width:42px"></span>
+      </div>
+      <div class="win-body">
+        <p class="typed-line"><span class="ps">$</span> <span class="path">~</span> <span id="typed" aria-label="whoami">whoami</span><span class="cursor" id="cursor" aria-hidden="true"></span></p>
+        <div class="out" id="hero-out">
+          <p class="hello">Hello, I'm</p>
+          <h1 class="name" id="hero-name">{{ c.profile.name.split(' ') | join('<span class="u">_</span>' | safe) }}</h1>
+          <p class="role">{% for r in c.profile.roles %}<b>{{ r }}</b>{% if not loop.last %} &amp; {% endif %}{% endfor %}</p>
+          <p class="tag">{{ c.profile.tagline }}</p>
+          <div>
+            <dl class="meta">
+              <dt>now</dt><dd>{{ c.profile.now }}</dd>
+              <dt>loc</dt><dd>{{ c.profile.location }}</dd>
+              <dt>status</dt><dd class="live">{{ c.profile.status }}</dd>
+            </dl>
+            <div class="hero-cta">
+              <a class="btn primary" href="mailto:{{ c.contact.email }}"><span class="k" aria-hidden="true">&gt;</span> say hello</a>
+              <a class="btn" href="#projects"><span class="k" aria-hidden="true">ls</span> projects/</a>
+              {% if github %}<a class="btn" href="{{ github.url }}" rel="noopener"><span class="k" aria-hidden="true">gh</span> {{ github.display.split('/')[-1] }}</a>{% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" aria-labelledby="about-h">
+    <h2 class="cmd" id="about-h"><span class="ps" aria-hidden="true">$</span><span class="sr-only">About — </span><span aria-hidden="true">cat</span> <span class="arg" aria-hidden="true">about.md</span></h2>
+    <div class="md">
+      <h3>About</h3>
+      {% for p in c.about %}<p>{{ p | md }}</p>
+      {% endfor %}
+      <div class="edu">
+        <span class="k">edu:</span> {{ c.education.degree }} — {{ c.education.school }} · {{ c.education.years }}
+        {% for n in c.education.notes %}<br>
+        <span class="k">{{ n.label }}:</span> {{ n.text }}{% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <!-- CAREER -->
+  <section id="career" aria-labelledby="career-h">
+    <h2 class="cmd" id="career-h"><span class="ps" aria-hidden="true">$</span><span class="sr-only">Experience — </span><span aria-hidden="true">career</span> <span class="flag" aria-hidden="true">--plot timeline --since</span> <span class="arg" aria-hidden="true">{{ c.experience[-1].start[:4] }}</span></h2>
+    <figure class="plot" aria-label="Career timeline: {{ c.experience | length }} roles, newest first. Details follow in the list below.">
+      <pre id="plot" aria-hidden="true"></pre>
+      <figcaption class="plot-foot">
+        <span><span class="sw"></span>full-time &nbsp; <span class="sw intern"></span>internship &nbsp; <span class="today">┆</span> today</span>
+        <span class="k" id="plot-sum"></span>
+      </figcaption>
+    </figure>
+    <script type="application/json" id="roles-data">{{ c.roles_timeline | tojson }}</script>
+
+    <h3 class="cmd sub-cmd"><span class="ps" aria-hidden="true">$</span><span aria-hidden="true">git log</span> <span class="flag" aria-hidden="true">--career</span><span class="cmd-comment" aria-hidden="true"># {{ c.experience | length }} commits on main</span><span class="sr-only">Roles in detail</span></h3>
+    <ol class="log">
+      {% for r in c.experience %}
+      <li{% if loop.first %} class="head"{% endif %} id="role-{{ r.slug }}" data-role="{{ r.slug }}">
+        <p class="commit"><span>commit {{ r.commit }}</span>
+          {%- if loop.first %}<span class="refs">(<b>HEAD -&gt; main</b>, <em>origin/now</em>)</span>
+          {%- elif r.internship %}<span class="refs">(<em>tag: v0.1-intern</em>)</span>{% endif %}</p>
+        <h3 class="who">{{ r.role }} <span class="at">@</span> <span class="co">{{ r.company }}</span></h3>
+        <p class="ctx">{% if r.legal_name %}<span>{{ r.legal_name }}</span><span>·</span>{% endif %}<span class="v">{{ r.location }}</span><span>·</span><time>{{ r.period }}</time></p>
+        <ul class="diff">
+          {% for h in r.highlights %}<li>{{ h | md }}</li>
+          {% endfor %}
+        </ul>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" aria-labelledby="projects-h">
+    <h2 class="cmd" id="projects-h"><span class="ps" aria-hidden="true">$</span><span class="sr-only">Projects — </span><span aria-hidden="true">ls</span> <span class="arg" aria-hidden="true">projects/featured/</span> <span class="flag" aria-hidden="true">--view=cards</span></h2>
+    <p class="ls-head" aria-hidden="true">total {{ c.projects.featured | length }} · featured work, newest first</p>
+    <div class="pgrid">
+      {% for p in c.projects.featured %}
+      <article class="pane pcard" id="p-{{ p.slug }}">
+        <div class="pane-t" aria-hidden="true"><span><span class="n">[{{ loop.index }}]</span> <span class="p">{{ p.slug }}/</span></span><span class="r">{{ p.years }}</span></div>
+        <div class="art" aria-hidden="true"><pre>{% include "art/" ~ p.slug ~ ".html" ignore missing %}</pre></div>
+        <div class="pbody">
+          <h3>{{ p.title }}</h3>
+          <p>{{ p.summary | md }}</p>
+          <ul class="tags" aria-label="Stack">{% for t in p.tags %}<li>{{ t }}</li>{% endfor %}</ul>
+        </div>
+        <div class="pfoot" aria-hidden="true"><span><span class="ps">$</span> domain: {{ p.domain }}</span><span>{{ p.tags | length }} tools</span></div>
+      </article>
+      {% endfor %}
+    </div>
+
+    {% if c.projects.archive %}
+    <h3 class="more-title"><span class="ps" aria-hidden="true">$</span> <span aria-hidden="true">ls projects/archive/</span><span class="sr-only">More projects</span></h3>
+    <ul class="agrid">
+      {% for p in c.projects.archive %}
+      <li class="pane acard">
+        <div class="pane-t" aria-hidden="true"><span class="p">{{ p.slug }}</span></div>
+        <h4>{{ p.title }}</h4>
+        <p>{{ p.summary | md }}</p>
+        <span class="st">{% if p.url %}<a href="{{ p.url }}" rel="noopener">{{ p.url | string | replace('https://', '') }}</a>{% else %}{{ p.tags | join(' · ') }}{% endif %}</span>
+      </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" aria-labelledby="skills-h">
+    <h2 class="cmd" id="skills-h"><span class="ps" aria-hidden="true">$</span><span class="sr-only">Skills — </span><span aria-hidden="true">skills</span> <span class="flag" aria-hidden="true">--list</span></h2>
+    <dl class="skills">
+      {% for g in c.skills %}
+      <div><dt>{{ g.group }}</dt><dd>{% for i in g.items %}<span>{{ i }}</span>{% endfor %}</dd></div>
+      {% endfor %}
+    </dl>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" aria-labelledby="contact-h">
+    <h2 class="cmd" id="contact-h"><span class="ps" aria-hidden="true">$</span><span class="sr-only">Contact — </span><span aria-hidden="true">contact</span></h2>
+    <p class="contact-note">{{ c.contact.note }}</p>
+    <dl class="contact-lines">
+      <dt>email</dt><dd><a href="mailto:{{ c.contact.email }}">{{ c.contact.email }}</a></dd>
+      {% for l in c.contact.links %}
+      <dt>{{ l.label }}</dt><dd><a href="{{ l.url }}" rel="noopener">{{ l.display }}</a></dd>
+      {% endfor %}
+    </dl>
+
+    <div class="shell" id="shell"
+         data-whoami="{{ c.profile.name }} — {{ c.profile.roles | join(' & ') }}"
+         data-email="{{ c.contact.email }}"
+         {% if github %}data-github="{{ github.url }}" data-github-label="{{ github.display }}"{% endif %}
+         {% if linkedin %}data-linkedin="{{ linkedin.url }}" data-linkedin-label="{{ linkedin.display }}"{% endif %}>
+      <div class="win-bar" aria-hidden="true">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="t">interactive — type <kbd>help</kbd></span>
+        <span style="width:42px"></span>
+      </div>
+      <div class="shell-out" id="shell-out" role="log" aria-live="polite">
+        <p>Try a command: <kbd>help</kbd>, <kbd>about</kbd>, <kbd>projects</kbd>, <kbd>contact</kbd>.</p>
+      </div>
+      <form id="shell-form" autocomplete="off">
+        <label for="shell-in"><span>guest@danbyte</span><span class="path">:~$</span></label>
+        <input id="shell-in" type="text" spellcheck="false" autocapitalize="off" enterkeyhint="go" placeholder="help" aria-describedby="shell-out">
+      </form>
+      <div class="chips" aria-label="Quick commands">
+        {% for cmd in ['help', 'about', 'career', 'projects', 'skills', 'contact'] %}
+        <button type="button" data-cmd="{{ cmd }}">{{ cmd }}</button>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

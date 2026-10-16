@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}404 · {{ c.site.domain }}{% endblock %}
+
+{% block content %}
+  <section class="hero" aria-labelledby="nf-h">
+    <div class="win">
+      <div class="win-bar" aria-hidden="true">
+        <span class="dots"><i></i><i></i><i></i></span>
+        <span class="t">{{ c.profile.handle }}: ~ — zsh</span>
+        <span style="width:42px"></span>
+      </div>
+      <div class="win-body">
+        <p class="typed-line"><span class="ps">$</span> <span class="path">~</span> cd {{ path }}</p>
+        <h1 class="name" id="nf-h">404</h1>
+        <p class="tag">zsh: no such file or directory: {{ path }}</p>
+        <div class="hero-cta">
+          <a class="btn primary" href="/"><span class="k" aria-hidden="true">cd</span> ~</a>
+          <a class="btn" href="/#projects"><span class="k" aria-hidden="true">ls</span> projects/</a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

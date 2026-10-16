@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danial Azmi</title>
+<meta name="description" content="Danial Azmi — Data Scientist & AI Engineer working across the full data stack, from data platforms to ML models to GenAI applications.">
+<meta name="color-scheme" content="light dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F6F0E1;
+    --paper: #FFFDF6;
+    --ink: #0E0E0E;          /* borders + shadows */
+    --text: #0E0E0E;
+    --muted: #4A463E;
+    --yellow: #FFD23F;
+    --coral: #FF6B4A;
+    --cobalt: #2347E0;
+    --on-accent: #0E0E0E;
+    --on-cobalt: #FFFFFF;
+    --b: 3px;
+    --sh: 6px;
+    --display: "Archivo Black", "Arial Black", Impact, sans-serif;
+    --sans: "Space Grotesk", system-ui, sans-serif;
+    --mono: "Space Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121110;
+      --paper: #1C1A17;
+      --ink: #F4EDDC;
+      --text: #F4EDDC;
+      --muted: #BDB5A3;
+      --cobalt: #3A5BF0;
+    }
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 500 17px/1.55 var(--sans);
+    overflow-x: hidden;
+    background-image: radial-gradient(color-mix(in srgb, var(--ink) 13%, transparent) 1.2px, transparent 1.3px);
+    background-size: 22px 22px;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 3px dashed var(--cobalt); outline-offset: 4px; }
+
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 32px; } }
+
+  /* ---------- primitives ---------- */
+  .box {
+    background: var(--paper);
+    border: var(--b) solid var(--ink);
+    box-shadow: var(--sh) var(--sh) 0 var(--ink);
+  }
+  .lift { transition: transform .15s cubic-bezier(.3,.7,.4,1.4), box-shadow .15s; }
+  .lift:hover { transform: translate(-3px, -3px); box-shadow: calc(var(--sh) + 3px) calc(var(--sh) + 3px) 0 var(--ink); }
+  .lift:active { transform: translate(var(--sh), var(--sh)); box-shadow: 0 0 0 var(--ink); }
+
+  .y { background: var(--yellow); color: var(--on-accent); }
+  .c { background: var(--coral); color: var(--on-accent); }
+  .k { background: var(--cobalt); color: var(--on-cobalt); }
+
+  .label {
+    font: 700 12px/1 var(--mono);
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .pill {
+    display: inline-block;
+    font: 700 12px/1 var(--mono);
+    padding: 6px 9px 5px;
+    border: 2px solid currentColor;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  /* ---------- nav ---------- */
+  header.top { padding: 20px 0 0; }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 10px 12px 10px 16px;
+  }
+  .logo { font: 400 20px/1 var(--display); text-decoration: none; letter-spacing: -.01em; }
+  .logo span { color: var(--coral); }
+  .nav ul { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; }
+  .nav a.nl {
+    display: block; text-decoration: none; font: 700 13px/1 var(--mono); text-transform: uppercase;
+    padding: 9px 11px; border: 2px solid transparent;
+  }
+  .nav a.nl:hover { border-color: var(--ink); background: var(--yellow); color: var(--on-accent); }
+  @media (max-width: 640px) { .nav ul li:not(:last-child) { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 40px 0 0; position: relative; }
+  .hero-grid { display: grid; gap: 22px; grid-template-columns: 1fr; }
+  @media (min-width: 900px) { .hero-grid { grid-template-columns: 1.55fr 1fr; align-items: stretch; } }
+
+  .name-block { position: relative; padding: 22px 20px 26px; container-type: inline-size; }
+  .name-block .label { display: flex; gap: 10px; align-items: center; margin-bottom: 18px; }
+  .dot { width: 10px; height: 10px; background: #1DBF73; border: 2px solid var(--ink); border-radius: 50%; }
+  h1.name {
+    margin: 0;
+    font: 400 clamp(50px, 21cqi, 168px)/.84 var(--display);
+    letter-spacing: -.035em;
+    text-transform: uppercase;
+  }
+  h1.name .l2 { display: inline-block; color: var(--coral); -webkit-text-stroke: var(--b) var(--ink); paint-order: stroke fill; }
+  .hello { font: 700 clamp(18px, 2.4vw, 22px)/1.3 var(--sans); margin: 22px 0 0; max-width: 36ch; }
+  .hello em { font-style: normal; background: var(--yellow); color: var(--on-accent); padding: 0 .2em; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+
+  .sticker {
+    position: absolute; right: 12px; top: -34px;
+    transform: rotate(6deg);
+    padding: 10px 14px;
+    font: 700 13px/1.15 var(--mono); text-transform: uppercase; letter-spacing: .04em;
+    border: var(--b) solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    border-radius: 999px;
+    max-width: 180px; text-align: center;
+    transition: transform .25s cubic-bezier(.3,.7,.4,1.6);
+  }
+  .sticker:hover { transform: rotate(-4deg) scale(1.06); }
+  @media (min-width: 900px) { .sticker { top: auto; bottom: -26px; right: -26px; font-size: 14px; padding: 14px 18px; } }
+
+  .hero-side { display: grid; gap: 22px; grid-template-rows: auto 1fr; }
+  .role-card { padding: 20px; }
+  .role-card h2 { font: 400 clamp(26px, 3.4vw, 34px)/1.02 var(--display); margin: 10px 0 14px; letter-spacing: -.01em; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 12px 16px;
+    font: 700 14px/1 var(--mono); text-transform: uppercase; text-decoration: none;
+    border: var(--b) solid var(--ink);
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform .12s, box-shadow .12s;
+  }
+  .btn:hover { transform: translate(-2px,-2px); box-shadow: 6px 6px 0 var(--ink); }
+  .btn:active { transform: translate(4px,4px); box-shadow: 0 0 0 var(--ink); }
+  .btn.ghost { background: var(--paper); color: var(--text); }
+
+  .now-card { padding: 20px; display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+  .now-card p { margin: 0; font-size: 16px; }
+  .now-card strong { font: 400 22px/1.1 var(--display); display: block; margin-top: 8px; }
+
+  /* ---------- marquee ---------- */
+  .marquee {
+    margin: 46px 0 0;
+    border-block: var(--b) solid var(--ink);
+    background: var(--ink);
+    color: var(--bg);
+    overflow: hidden;
+    transform: rotate(-1.2deg);
+    width: 104%; margin-left: -2%;
+    contain: paint;
+  }
+  .marquee-track {
+    display: flex; width: max-content;
+    animation: slide 38s linear infinite;
+  }
+  .marquee:hover .marquee-track { animation-play-state: paused; }
+  .marquee ul { display: flex; list-style: none; margin: 0; padding: 14px 0; }
+  .marquee li { font: 400 clamp(20px, 3vw, 30px)/1 var(--display); text-transform: uppercase; padding: 0 22px; display: flex; align-items: center; gap: 44px; white-space: nowrap; }
+  .marquee li::after { content: "✦"; color: var(--yellow); font-size: .8em; margin-right: -22px; }
+  .marquee li:nth-child(3n+2)::after { color: var(--coral); }
+  .marquee li:nth-child(3n)::after { color: #8FA4FF; }
+  @keyframes slide { to { transform: translateX(-50%); } }
+  .marquee-clip { overflow: hidden; padding: 12px 0 18px; }
+
+  /* ---------- sections ---------- */
+  section { padding: 64px 0 0; }
+  .sec-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 26px; }
+  .sec-head h2 {
+    margin: 0; font: 400 clamp(40px, 8vw, 84px)/.9 var(--display); text-transform: uppercase; letter-spacing: -.03em;
+  }
+  .sec-num {
+    display: inline-block; font: 700 13px/1 var(--mono); padding: 7px 9px; border: var(--b) solid var(--ink);
+    background: var(--paper); margin-bottom: 12px; box-shadow: 3px 3px 0 var(--ink);
+  }
+  .sec-head p { margin: 0; max-width: 34ch; color: var(--muted); font-size: 15px; }
+
+  /* ---------- bento ---------- */
+  .bento { display: grid; gap: 20px; grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .bento > * { padding: 20px; min-width: 0; }
+  .b-about { grid-column: 1 / -1; }
+  .b-about p { margin: 0 0 14px; font-size: 17px; }
+  .b-about p:last-child { margin: 0; }
+  .b-about .lead { font: 700 clamp(20px, 2.4vw, 26px)/1.3 var(--sans); letter-spacing: -.01em; }
+  .stat { display: flex; flex-direction: column; justify-content: space-between; gap: 18px; }
+  .stat .big { font: 400 clamp(48px, 7vw, 76px)/.85 var(--display); letter-spacing: -.04em; }
+  .stat .big small { font-size: .45em; letter-spacing: 0; }
+  .stat .cap { font: 700 13px/1.35 var(--mono); text-transform: uppercase; }
+  .b-loc, .b-edu { grid-column: 1 / -1; }
+  .b-loc { display: flex; flex-direction: column; gap: 10px; }
+  .b-loc .place { font: 400 clamp(26px, 3.4vw, 34px)/1 var(--display); }
+  .b-loc .coords { font: 400 13px/1 var(--mono); color: var(--muted); }
+  .b-edu h3 { font: 400 22px/1.15 var(--display); margin: 10px 0 8px; }
+  .b-edu p { margin: 0; font-size: 15px; }
+  .industries { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+  @media (min-width: 900px) {
+    .bento { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .b-about { grid-column: span 3; grid-row: span 2; display: flex; flex-direction: column; justify-content: center; padding: 30px; }
+    .b-loc { grid-column: span 1; }
+    .b-edu { grid-column: span 2; }
+    .b-ind { grid-column: span 2; }
+  }
+  .b-ind { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 12px; }
+
+  /* ---------- experience ---------- */
+  .exp { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .exp > li {
+    display: grid; gap: 14px;
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  @media (min-width: 820px) {
+    .exp > li { grid-template-columns: 210px 1fr; gap: 28px; padding: 24px 26px; }
+  }
+  .chip {
+    display: inline-flex; flex-direction: column; gap: 6px; align-self: start;
+    padding: 10px 12px; border: var(--b) solid var(--ink); box-shadow: 3px 3px 0 var(--ink);
+    font: 700 13px/1 var(--mono); text-transform: uppercase; width: max-content;
+  }
+  .chip b { font: 400 26px/1 var(--display); letter-spacing: -.02em; }
+  .exp h3 { margin: 0; font: 400 clamp(22px, 2.8vw, 30px)/1.05 var(--display); letter-spacing: -.01em; }
+  .exp .co { margin: 6px 0 12px; font: 700 14px/1.4 var(--mono); color: var(--muted); }
+  .exp ul.pts { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .exp ul.pts li { display: block; padding: 0 0 0 24px; position: relative; box-shadow: none; border: 0; font-size: 16px; }
+  .exp ul.pts li::before { content: "→"; position: absolute; left: 0; font-family: var(--mono); font-weight: 700; }
+  .exp .now { margin-left: 8px; vertical-align: 4px; }
+
+  /* ---------- projects ---------- */
+  .proj-grid { display: grid; gap: 26px; grid-template-columns: 1fr; padding: 6px 0; }
+  @media (min-width: 760px) { .proj-grid { grid-template-columns: 1fr 1fr; gap: 30px; } }
+  .proj {
+    padding: 22px; display: flex; flex-direction: column; gap: 14px;
+    transform: rotate(var(--r, 0deg));
+    transition: transform .2s cubic-bezier(.3,.7,.4,1.5), box-shadow .2s;
+    position: relative;
+  }
+  .proj:hover { transform: rotate(0deg) translate(-3px,-3px); box-shadow: 10px 10px 0 var(--ink); }
+  .proj:nth-child(1) { --r: -1.2deg; }
+  .proj:nth-child(2) { --r: 1deg; }
+  .proj:nth-child(3) { --r: .8deg; }
+  .proj:nth-child(4) { --r: -1deg; }
+  .proj .idx { font: 400 56px/.8 var(--display); letter-spacing: -.04em; opacity: .9; }
+  .proj h3 { margin: 0; font: 400 clamp(24px, 3vw, 32px)/1.02 var(--display); letter-spacing: -.015em; }
+  .proj p { margin: 0; font-size: 16px; }
+  .proj .tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 6px; }
+  .proj-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+  .proj-top .label { padding: 6px 8px; border: 2px solid currentColor; }
+  .proj.p-paper { background: var(--paper); color: var(--text); }
+
+  .more { margin-top: 40px; padding: 0; overflow: hidden; }
+  .more-head { padding: 14px 20px; border-bottom: var(--b) solid var(--ink); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .more ol { list-style: none; margin: 0; padding: 0; }
+  .more li {
+    display: grid; grid-template-columns: 40px 1fr; gap: 4px 14px; align-items: baseline;
+    padding: 16px 20px; border-bottom: 2px solid var(--ink);
+    transition: background .12s;
+  }
+  .more li:last-child { border-bottom: 0; }
+  .more li:hover { background: color-mix(in srgb, var(--yellow) 30%, var(--paper)); }
+  .more .n { font: 700 14px/1 var(--mono); color: var(--muted); grid-row: span 2; }
+  .more h3 { margin: 0; font: 700 18px/1.25 var(--sans); }
+  .more h3 a { text-decoration-thickness: 2px; text-underline-offset: 3px; }
+  .more p { margin: 0; font-size: 15px; color: var(--muted); }
+  .more .t { grid-column: 2; font: 400 12px/1.5 var(--mono); color: var(--muted); }
+  @media (min-width: 820px) {
+    .more li { grid-template-columns: 44px minmax(0, 1.1fr) minmax(0, 1.4fr) minmax(0, .9fr); }
+    .more .n { grid-row: auto; }
+    .more .t { grid-column: auto; text-align: right; }
+  }
+
+  /* ---------- skills ---------- */
+  .skills { display: grid; gap: 20px; grid-template-columns: 1fr; }
+  @media (min-width: 720px) { .skills { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 1000px) { .skills { grid-template-columns: repeat(3, 1fr); } }
+  .sk { padding: 20px; }
+  .sk header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: var(--b) solid currentColor; }
+  .sk h3 { margin: 0; font: 400 22px/1 var(--display); text-transform: uppercase; }
+  .sk ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .sk-wide { grid-column: 1 / -1; }
+  @media (min-width: 1000px) { .sk-wide { grid-column: span 2; } }
+
+  /* ---------- contact ---------- */
+  .contact { padding-bottom: 40px; }
+  .mail {
+    display: block; text-decoration: none;
+    padding: clamp(22px, 4vw, 44px);
+    border: var(--b) solid var(--ink);
+    box-shadow: 10px 10px 0 var(--ink);
+    transition: transform .14s, box-shadow .14s;
+    position: relative; overflow: hidden;
+  }
+  .mail:hover { transform: translate(-4px,-4px); box-shadow: 14px 14px 0 var(--ink); }
+  .mail:active { transform: translate(10px,10px); box-shadow: 0 0 0 var(--ink); }
+  .mail .say { font: 400 clamp(44px, 10vw, 120px)/.86 var(--display); text-transform: uppercase; letter-spacing: -.04em; display: block; }
+  .mail .addr {
+    display: inline-block; margin-top: 22px;
+    font: 700 clamp(15px, 2.6vw, 26px)/1.2 var(--mono);
+    padding: 10px 14px; background: var(--paper); color: var(--text); border: var(--b) solid var(--ink);
+    overflow-wrap: anywhere;
+  }
+  .mail .arrow { position: absolute; right: clamp(18px, 4vw, 44px); top: clamp(18px, 4vw, 44px); font: 400 clamp(40px, 7vw, 84px)/1 var(--display); transition: transform .2s; }
+  .mail:hover .arrow { transform: translate(6px,-6px) rotate(-8deg); }
+  .socials { display: grid; gap: 18px; grid-template-columns: 1fr 1fr; margin-top: 26px; }
+  .socials a { padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; text-decoration: none; font: 400 clamp(18px, 3vw, 26px)/1 var(--display); }
+  .socials a span.label { font-size: 11px; display: block; margin-bottom: 6px; }
+
+  footer { padding: 30px 0 90px; font: 400 13px/1.5 var(--mono); color: var(--muted); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; border-top: var(--b) solid var(--ink); padding-top: 18px; }
+
+  /* ---------- badge ---------- */
+  .badge {
+    position: fixed; left: 12px; bottom: 12px; z-index: 50;
+    font: 700 11px/1 var(--mono); text-transform: uppercase; letter-spacing: .08em;
+    padding: 9px 11px; background: var(--yellow); color: var(--on-accent);
+    border: 2px solid #0E0E0E; box-shadow: 3px 3px 0 var(--ink);
+    transform: rotate(-2deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; }
+    .marquee-track { animation: none; }
+  }
+  @media (max-width: 420px) {
+    .socials { grid-template-columns: 1fr; }
+    .stat .big { font-size: 46px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <nav class="nav box" aria-label="Primary">
+      <a class="logo" href="#top">danbyte<span>.</span>my</a>
+      <ul>
+        <li><a class="nl" href="#about">About</a></li>
+        <li><a class="nl" href="#work">Work</a></li>
+        <li><a class="nl" href="#projects">Projects</a></li>
+        <li><a class="btn y" href="#contact">Say hi ↘</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap hero-grid">
+      <div class="name-block box">
+        <p class="label"><span class="dot" aria-hidden="true"></span>Hello, I'm</p>
+        <h1 class="name">Danial<br><span class="l2">Azmi</span></h1>
+        <p class="hello">Data Scientist &amp; AI Engineer working across <em>the full data stack</em> — from data platforms to ML models to GenAI applications.</p>
+        <p class="sticker y" aria-label="Status: open to interesting problems">Open to interesting problems ✦</p>
+      </div>
+
+      <div class="hero-side">
+        <div class="role-card box k lift">
+          <p class="label">Currently</p>
+          <h2>Data Scientist @ Tupai&nbsp;AI</h2>
+          <div class="cta-row">
+            <a class="btn y" href="#projects">See projects</a>
+            <a class="btn ghost" href="https://github.com/danialazmie" rel="noopener">GitHub ↗</a>
+          </div>
+        </div>
+        <div class="now-card box c lift">
+          <p class="label">Lately building</p>
+          <p><strong>RAG chatbots &amp; AI agents that talk to company data through MCP.</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="marquee-clip">
+      <div class="marquee" aria-label="Skills">
+        <div class="marquee-track">
+          <ul>
+            <li>Python</li><li>SQL</li><li>LLMs</li><li>RAG</li><li>MCP</li><li>Haystack</li><li>BigQuery</li><li>dbt</li><li>Airflow</li><li>FastAPI</li><li>GCP</li><li>Docker</li><li>Snowflake</li><li>PyTorch</li><li>MLOps</li>
+          </ul>
+          <ul aria-hidden="true">
+            <li>Python</li><li>SQL</li><li>LLMs</li><li>RAG</li><li>MCP</li><li>Haystack</li><li>BigQuery</li><li>dbt</li><li>Airflow</li><li>FastAPI</li><li>GCP</li><li>Docker</li><li>Snowflake</li><li>PyTorch</li><li>MLOps</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT / BENTO -->
+  <section id="about" aria-labelledby="about-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="sec-num">01 / About</span><h2 id="about-h">The short<br>version</h2></div>
+        <p>Making models useful, not just accurate.</p>
+      </div>
+
+      <div class="bento">
+        <article class="b-about box">
+          <p class="lead">I'm a data scientist working across the full data stack — from building data platforms, to training ML models, to shipping GenAI applications in production.</p>
+          <p>My focus is bridging the gap between advanced AI/ML systems and real business needs: making models useful, not just accurate.</p>
+          <p>Over the past ~4.5 years I've worked across fintech, media, consulting and edtech — migrating pipelines, standing up MLOps on the cloud, building recommendation engines, and lately, building RAG chatbots and AI agents that talk to company data through MCP.</p>
+        </article>
+
+        <div class="stat box y lift">
+          <span class="label">Track record</span>
+          <span class="big">5</span>
+          <span class="cap">Companies<br>since 2021</span>
+        </div>
+        <div class="stat box k lift">
+          <span class="label">Shipped</span>
+          <span class="big">12</span>
+          <span class="cap">Projects<br>on the books</span>
+        </div>
+
+        <div class="b-loc box lift">
+          <span class="label">Based in</span>
+          <span class="place">Petaling Jaya</span>
+          <span class="coords">Selangor, Malaysia</span>
+        </div>
+
+        <div class="stat box c lift">
+          <span class="label">Experience</span>
+          <span class="big">~4.5<small> yrs</small></span>
+          <span class="cap">Full-time<br>in data</span>
+        </div>
+
+        <div class="b-edu box lift">
+          <span class="label">2017 → 2021 · MMU</span>
+          <h3>B.Comp.Sc (Data Science), Multimedia University</h3>
+          <p>Cyberjaya · Yayasan Telekom Malaysia Scholar</p>
+        </div>
+
+        <div class="b-ind box lift">
+          <span class="label">4 industries</span>
+          <div class="industries">
+            <span class="pill y" style="border-color:var(--ink)">Fintech</span>
+            <span class="pill c" style="border-color:var(--ink)">Media</span>
+            <span class="pill k" style="border-color:var(--ink)">Consulting</span>
+            <span class="pill">Edtech</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="work" aria-labelledby="work-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="sec-num">02 / Experience</span><h2 id="work-h">Where I've<br>worked</h2></div>
+        <p>Five roles, four industries, one through-line: data that earns its keep.</p>
+      </div>
+
+      <ol class="exp">
+        <li class="box lift">
+          <span class="chip y"><b>2025 →</b>Sep 2025 – Now</span>
+          <div>
+            <h3>Data Scientist <span class="pill now">Current</span></h3>
+            <p class="co">Tupai AI (AI Teacher Sdn. Bhd.) · Kuala Lumpur</p>
+            <ul class="pts">
+              <li>Own the analytical data stack (warehouse, pipelines, BI) and restructured it into a medallion (bronze/silver/gold) architecture.</li>
+              <li>Built a Bayesian recommendation system that generates customised learning plans for students.</li>
+              <li>Created an internal AI agent backed by MCP servers that works as a data analyst for the team.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="box lift">
+          <span class="chip c"><b>2023–25</b>Sep 2023 – Sep 2025</span>
+          <div>
+            <h3>Data Scientist</h3>
+            <p class="co">REV Media Group · Kuala Lumpur</p>
+            <ul class="pts">
+              <li>Built and deployed a RAG-based question-answering chatbot on GCP.</li>
+              <li>Introduced CI/CD practices and migrated on-premise ML models to GCP.</li>
+              <li>Developed a geo-locational recommendation engine for article engagement.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="box lift">
+          <span class="chip k"><b>2023</b>Feb – Sep 2023</span>
+          <div>
+            <h3>Data Science Consultant</h3>
+            <p class="co">DataMicron Systems Sdn. Bhd. · Kuala Lumpur</p>
+            <ul class="pts">
+              <li>Ran research and POCs for AI/ML use cases (computer vision, NLP, forecasting), working directly with clients.</li>
+              <li>Oversaw project lifecycles from development through post-launch maintenance.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="box lift">
+          <span class="chip y"><b>2022</b>Mar – Dec 2022</span>
+          <div>
+            <h3>Data Scientist</h3>
+            <p class="co">MoneyLion Malaysia Sdn. Bhd. · Kuala Lumpur</p>
+            <ul class="pts">
+              <li>Helped migrate ETL pipelines from AWS to Snowflake.</li>
+              <li>Ran A/B tests to improve NLU model performance and cut operational costs.</li>
+              <li>Built analytical dashboards for stakeholders.</li>
+            </ul>
+          </div>
+        </li>
+        <li class="box lift">
+          <span class="chip c"><b>2021</b>Mar – Jun 2021</span>
+          <div>
+            <h3>Web Developer &amp; Software QA Tester (Intern)</h3>
+            <p class="co">Funai Malaysia R&amp;D Sdn. Bhd. · Johor Bahru</p>
+            <ul class="pts">
+              <li>Maintained a Django-based internal management and testing system.</li>
+              <li>Supported QA testing for Android TV software.</li>
+            </ul>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects" aria-labelledby="proj-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="sec-num">03 / Projects</span><h2 id="proj-h">Things I've<br>built</h2></div>
+        <p>Four featured, eight more below. From warehouses to agents.</p>
+      </div>
+
+      <div class="proj-grid">
+        <article class="proj box y">
+          <div class="proj-top"><span class="idx" aria-hidden="true">01</span><span class="label">GenAI · Agent</span></div>
+          <h3>AI Analyst Agent (MCP)</h3>
+          <p>Internal AI data analyst built with Gemini, Haystack, FastAPI and MCP servers. Team members query Metabase, PostHog and BigQuery in plain language.</p>
+          <div class="tags"><span class="pill">Gemini</span><span class="pill">Haystack</span><span class="pill">FastAPI</span><span class="pill">MCP</span><span class="pill">BigQuery</span><span class="pill">PostHog</span></div>
+        </article>
+        <article class="proj box k">
+          <div class="proj-top"><span class="idx" aria-hidden="true">02</span><span class="label">GenAI · Production</span></div>
+          <h3>RAG Question-Answering Chatbot</h3>
+          <p>End-to-end production chatbot using retrieval-augmented generation for a major Malaysian media group, serving customer queries across digital channels on GCP.</p>
+          <div class="tags"><span class="pill">RAG</span><span class="pill">Haystack</span><span class="pill">FastAPI</span><span class="pill">GCP</span><span class="pill">Python</span></div>
+        </article>
+        <article class="proj box c">
+          <div class="proj-top"><span class="idx" aria-hidden="true">03</span><span class="label">ML · Edtech</span></div>
+          <h3>Adaptive Learning Recommender</h3>
+          <p>Personalised learning-plan generator for an edtech platform. A Bayesian model adapts content order to each student's performance and history.</p>
+          <div class="tags"><span class="pill">Python</span><span class="pill">Bayesian</span><span class="pill">ML</span><span class="pill">BigQuery</span><span class="pill">dbt</span></div>
+        </article>
+        <article class="proj box p-paper">
+          <div class="proj-top"><span class="idx" aria-hidden="true">04</span><span class="label">RecSys · Media</span></div>
+          <h3>Geo-Localised Recommendation Engine</h3>
+          <p>Hyper-personalised recommendations combining geo-location signals with behavioural data to lift organic article engagement.</p>
+          <div class="tags"><span class="pill">Python</span><span class="pill">GCP</span><span class="pill">RecSys</span><span class="pill">BigQuery</span></div>
+        </article>
+      </div>
+
+      <div class="more box">
+        <div class="more-head"><span class="label">More work</span><span class="label">05 — 12</span></div>
+        <ol>
+          <li><span class="n">05</span><h3>Medallion Architecture Data Stack</h3><p>Refactored a production warehouse to bronze/silver/gold layers, improving reliability, test coverage and documentation.</p><span class="t">dbt · BigQuery · Fivetran</span></li>
+          <li><span class="n">06</span><h3>On-Prem → GCP MLOps Migration</h3><p>Moved legacy ML inference services to containerised deployments on Cloud Run, monitored via Vertex AI.</p><span class="t">GCP · Docker · Kubernetes · Kubeflow · Vertex AI · CI/CD</span></li>
+          <li><span class="n">07</span><h3>NLU A/B Testing Framework</h3><p>Designed and monitored experiments on NLU model variants; reduced inference cost and improved intent accuracy.</p><span class="t">Python · NLU · A/B Testing · Airflow</span></li>
+          <li><span class="n">08</span><h3>ETL Migration (AWS Redshift → Snowflake)</h3><p>Migrated Airflow-orchestrated ETL and dbt models with zero downtime and full data validation.</p><span class="t">Airflow · dbt · Snowflake · AWS</span></li>
+          <li><span class="n">09</span><h3>Aspect-Based Sentiment Analysis</h3><p>NLP on millions of Steam game reviews: validation, preprocessing, neural networks and classical ML.</p><span class="t">NLP · TensorFlow · Scikit-learn · Pandas</span></li>
+          <li><span class="n">10</span><h3>AI/ML Consulting POCs</h3><p>Client-facing POCs across computer vision, NLP and forecasting — scoping, building, hand-off, support.</p><span class="t">Python · ML · FastAPI · Docker</span></li>
+          <li><span class="n">11</span><h3>Internal QA Management System</h3><p>Django web app supporting QA workflows for Android TV firmware releases.</p><span class="t">Django · Python · JavaScript</span></li>
+          <li><span class="n">12</span><h3><a href="https://github.com/danialazmie/danbyte.my" rel="noopener">danbyte.my ↗</a></h3><p>This portfolio.</p><span class="t">GitHub</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills" aria-labelledby="skills-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="sec-num">04 / Skills</span><h2 id="skills-h">The<br>toolbox</h2></div>
+        <p>36 tools across five areas — the ones I actually reach for.</p>
+      </div>
+      <div class="skills">
+        <div class="sk sk-wide box k"><header><h3>AI / ML</h3><span class="label">13</span></header>
+          <ul><li class="pill">LLMs</li><li class="pill">RAG</li><li class="pill">GenAI</li><li class="pill">NLP</li><li class="pill">MLOps</li><li class="pill">Haystack</li><li class="pill">LangChain</li><li class="pill">Hugging Face</li><li class="pill">PyTorch</li><li class="pill">TensorFlow</li><li class="pill">Scikit-learn</li><li class="pill">Pinecone</li><li class="pill">ChromaDB</li></ul></div>
+        <div class="sk box y"><header><h3>Languages</h3><span class="label">4</span></header>
+          <ul><li class="pill">Python</li><li class="pill">SQL</li><li class="pill">JavaScript</li><li class="pill">Bash</li></ul></div>
+        <div class="sk box"><header><h3>Data Eng.</h3><span class="label">9</span></header>
+          <ul><li class="pill">dbt</li><li class="pill">BigQuery</li><li class="pill">Airflow</li><li class="pill">Fivetran</li><li class="pill">Snowflake</li><li class="pill">Redshift</li><li class="pill">Pandas</li><li class="pill">Metabase</li><li class="pill">PostHog</li></ul></div>
+        <div class="sk box c"><header><h3>Cloud</h3><span class="label">3</span></header>
+          <ul><li class="pill">GCP</li><li class="pill">AWS</li><li class="pill">Azure</li></ul></div>
+        <div class="sk box"><header><h3>Infra &amp; Tools</h3><span class="label">7</span></header>
+          <ul><li class="pill">FastAPI</li><li class="pill">Docker</li><li class="pill">Kubernetes</li><li class="pill">Kubeflow</li><li class="pill">Nginx</li><li class="pill">Git</li><li class="pill">CI/CD</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <div><span class="sec-num">05 / Contact</span><h2 id="contact-h">Got a<br>problem?</h2></div>
+        <p>Open to interesting problems. The inbox is the fastest way in.</p>
+      </div>
+      <a class="mail y" href="mailto:danial.azmiee@gmail.com">
+        <span class="say">Let's<br>talk.</span>
+        <span class="addr">danial.azmiee@gmail.com</span>
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
+      <div class="socials">
+        <a class="box k lift" href="https://github.com/danialazmie" rel="noopener"><span><span class="label">Code</span>GitHub</span><span aria-hidden="true">↗</span></a>
+        <a class="box c lift" href="https://linkedin.com/in/danial-azmi" rel="noopener"><span><span class="label">Career</span>LinkedIn</span><span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="yr">2026</span> Danial Azmi · danbyte.my</span>
+    <span>Petaling Jaya, MY</span>
+  </div>
+</footer>
+
+<div class="badge" aria-hidden="true">Theme 04 · Brutalist</div>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
